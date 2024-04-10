@@ -11,7 +11,43 @@ public class Aluno extends Pessoa{
 	
 	public Aluno(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, Plano planoContratado, LocalDate dataMatricula) {
 		super(nome, cpf, dataNascimento, contato, senha);
+		this.planoContratado  = planoContratado;
+		this.dataMatricula  = dataMatricula;
+	}
+
+	public Plano getPlanoContratado() {
+		return planoContratado;
+	}
+
+	public void setPlanoContratado(Plano planoContratado) {
 		this.planoContratado = planoContratado;
-		this.dataMatricula = dataMatricula;
+	}
+
+	public LocalDate getDataMatricula() {
+		return dataMatricula;
+	}
+
+	public List<Avaliacao> getAvaliacoesFisicas() {
+		return avaliacoesFisicas;
+	}
+	
+	public String info() {
+		return "";
+	}
+	
+	public void soliciarAgendamento(PersonalTrainer personalTrainer, LocalDate data, LocalDate horario) {
+		
+	}
+	
+	public List<Agendamento> visualizarAgendamentos() {
+		return agendamentos;
+	}
+	
+	public void cancelarAgendamento(Agendamento agendamento) {
+		
+	}
+	
+	public List<Avaliacao> visualizarAvaliacoes() {
+		return avaliacoes;
 	}
 }
