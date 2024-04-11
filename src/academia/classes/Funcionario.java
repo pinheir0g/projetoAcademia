@@ -1,8 +1,6 @@
 package academia.classes;
 
-<<<<<<< Updated upstream
-public class Funcionario {
-=======
+
 import java.time.LocalDate;
 
 public class Funcionario extends Pessoa {
@@ -13,6 +11,16 @@ public class Funcionario extends Pessoa {
 		super(nome, cpf, dataNascimento, contato, senha);
 		this.cargo = cargo;
 			}
->>>>>>> Stashed changes
+
+	public String getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+	
+	
+
 
 }
