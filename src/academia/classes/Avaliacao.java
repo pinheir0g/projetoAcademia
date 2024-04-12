@@ -9,11 +9,10 @@ public class Avaliacao {
 	private String descricao;
 	
 	public Avaliacao(Aluno aluno, LocalDate dataAvaliacao, PersonalTrainer personalTrainer, String descricao) {
-		super();
 		this.aluno = aluno;
 		this.dataAvaliacao = dataAvaliacao;
 		this.personalTrainer = personalTrainer;
-		this.descricao = descricao;
+	 	this.descricao = descricao;
 	}
 
 	public LocalDate getDataAvaliacao() {
