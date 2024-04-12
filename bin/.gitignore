@@ -1,4 +1,5 @@
 /academia/
+<<<<<<< Updated upstream
 # Java related
 target/**
 *.jar
@@ -27,3 +28,6 @@ local.properties
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+=======
+/bin/
+>>>>>>> Stashed changes
