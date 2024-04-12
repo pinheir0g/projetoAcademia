@@ -15,8 +15,8 @@ public class Aluno extends Pessoa{
 		this.dataMatricula  = dataMatricula;
 	}
 
-	public Plano getPlanoContratado() {
-		return planoContratado;
+	public String getPlanoContratado() {
+		return planoContratado.getNome();
 	}
 
 	public void setPlanoContratado(Plano planoContratado) {
@@ -26,7 +26,7 @@ public class Aluno extends Pessoa{
 	public LocalDate getDataMatricula() {
 		return dataMatricula;
 	}
-
+	
 	public List<Avaliacao> getAvaliacoesFisicas() {
 		return avaliacoesFisicas;
 	}
@@ -51,3 +51,4 @@ public class Aluno extends Pessoa{
 		return avaliacoes;
 	}
 }
+

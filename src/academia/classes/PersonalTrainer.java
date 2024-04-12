@@ -1,25 +1,27 @@
 package academia.classes;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class PersonalTrainer extends Pessoa {
 	private String especialidade;
 	private String cref;
-	private LocalDate horarioAtendimento;
+	private LocalTime horarioAtendimento;
 	
 	
 	public PersonalTrainer(String nome, String cpf, LocalDate dataNascimento, String contato, String senha,
-			String especialidade, String cref) {
+			String especialidade, String cref, LocalTime horarioAtendimento) {
 		super(nome, cpf, dataNascimento, contato, senha);
 		this.especialidade = especialidade;
 		this.cref = cref;
+		this.horarioAtendimento = horarioAtendimento;
 	}
-
-	public LocalDate getHorarioAtendimento() {
+ 
+	public LocalTime getHorarioAtendimento() {
 		return horarioAtendimento;
 	}
 
-	public void setHorarioAtendimento(LocalDate horarioAtendimento) {
+	public void setHorarioAtendimento(LocalTime horarioAtendimento) {
 		this.horarioAtendimento = horarioAtendimento;
 	}
 

@@ -41,6 +41,11 @@ public abstract class Pessoa {
 	public void setContato(String contato) {
 		this.contato = contato;
 	}
+	
+	public String getSenha() {
+		return senha;
+	}
+	
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
@@ -56,6 +61,3 @@ public abstract class Pessoa {
 	}
 
 }
-
-
-
