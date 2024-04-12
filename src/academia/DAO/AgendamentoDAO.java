@@ -1,12 +1,14 @@
 package academia.DAO;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import academia.classes.Aluno;
 import academia.classes.PersonalTrainer;
+import academia.classes.Pessoa;
 import academia.db.Conexao;
 
 public class AgendamentoDAO {
@@ -28,5 +30,39 @@ public class AgendamentoDAO {
 			
 			e.printStackTrace();
 		}
+	}
+	
+	public String hitoricoAgendamentos(Pessoa pessoa) {
+		String sql = "SELECT p.nome as nome_aluno, pa.nome as nome_personal, ag.data, ag.horario "
+				+ "from Agendamento ag "
+				+ "JOIN Aluno a ON ag.aluno_id = a.id "
+				+ "JOIN Pessoa p ON a.id = p.id "
+				+ "JOIN PersonalTrainer pt ON ag.personal_id = pt.id "
+				+ "JOIN Pessoa pa ON pt.id = pa.id "
+				+ "WHERE p.cpf = ?";
+		StringBuilder dados = new StringBuilder();
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			ps.setString(1, pessoa.getCpf());
+			try (ResultSet rs = ps.executeQuery()){
+				while(rs.next()) {
+					String nomeAluno = rs.getString("nome_aluno");
+					String nomePersonal = rs.getString("nome_personal");
+					String data = rs.getString("data");
+					String horario = rs.getString("horario");
+					dados.append(String.format( """
+							Aluno: %s
+							Personal Trainer: %s
+							Data: %s
+							Horario: %s
+							
+							""", nomeAluno, nomePersonal, data, horario));
+				}
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return dados.toString();
 	}
 }
