@@ -1,8 +1,35 @@
-package academia.classes;
+package academia.menus;
 
 import java.util.Scanner;
 
+import academia.DAO.ValidacaoDAO;
+
 public class Menus {
+	
+	public static String login() {
+		String tipoUsuario = "";
+		Scanner sc = new Scanner(System.in);
+		
+		do {
+			System.out.println("Digite seu CPF: ");
+			String cpf = sc.nextLine();
+			
+			System.out.println("Digite sua senha: ");
+			String senha = sc.nextLine();
+			
+		
+			tipoUsuario = ValidacaoDAO.conectaUsuario(cpf, senha);
+			
+			if (!tipoUsuario.equalsIgnoreCase("")) {
+				System.out.println("Logado com sucesso!");
+			}else {
+				System.out.println("CPF ou senha inválidos!");
+			}
+			
+		}while(tipoUsuario.equalsIgnoreCase(""));
+		sc.close();
+		return tipoUsuario;
+	}
 	
 	public static void menuAluno() {
 		
@@ -33,9 +60,8 @@ public class Menus {
                     break;                    
                 case 0:
                     System.out.println("Opção inválida!");
-            }
-
-          }
+	           }
+         }
     }
 	
 	
@@ -44,7 +70,7 @@ public class Menus {
         Scanner scanner = new Scanner(System.in);
 
          while (true) {
-           
+        	
             int opcaoUsuario = Menu.leMenu("personal");
             
             switch (opcaoUsuario) {
@@ -59,8 +85,7 @@ public class Menus {
                     break;
                 default:
                     System.out.println("Opção inválida!");
-            }
-
+	        }
         }
     }
 	
@@ -68,12 +93,13 @@ public class Menus {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-         
-           int opcaoUsuario = Menu.leMenu("funcionario");
+        	
+        	
+        	int opcaoUsuario = Menu.leMenu("funcionario");
 
             switch (opcaoUsuario) {
                 case 1:
-                    System.out.println("Cadastrar noov planos");
+                    System.out.println("Cadastrar novo Plano");
                     break;
                 case 2:
                     System.out.println("Cadastrar Aluno");
@@ -95,18 +121,8 @@ public class Menus {
                     break;        
                 default:
                     System.out.println("Opção inválida!");
-            }
-
+	        }
         }
     }
-	
-	public static void main(String[] args) {
-		
-		System.out.println("Bem vindo a Academina JAVACT");
-		
-		Menus.menuFuncionario();
-		
-		
-	}
 	
 }

@@ -1,4 +1,4 @@
-package academia.classes;
+package academia.menus;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -79,11 +79,11 @@ public class Menu {
 				}
 			}
 			
-			
 			} else if (opcaoMenu.equalsIgnoreCase("funcionario")) {
 			System.out.println(Menu.exibeFuncionario());
 			 if (s.hasNextInt()) {
 				 opcao = s.nextInt();
+				 System.out.println(opcao);
 			 } else {
 				 opcao = -1;
 			 }			
@@ -116,8 +116,9 @@ public class Menu {
 				}
 			}
 			
-			return opcao;
-		}while(!validador);	
+			
+		}while(!validador);
+		return opcao;
 	}
 	
 }

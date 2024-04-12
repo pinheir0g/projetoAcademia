@@ -1,5 +1,6 @@
 package academia.DAO;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ public class FuncionarioDAO {
 			ps = Conexao.conectar().prepareStatement(sqlPessoa);
 			ps.setString(1, funcionario.getNome());
 			ps.setString(2, funcionario.getCpf());
-			ps.setDate(3, java.sql.Date.valueOf(funcionario.getDataNascimento()));
+			ps.setDate(3, Date.valueOf(funcionario.getDataNascimento()));
 			ps.setString(4, funcionario.getContato());
 			ps.setString(5, funcionario.getSenha());
 		
