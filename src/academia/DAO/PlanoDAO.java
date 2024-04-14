@@ -11,7 +11,7 @@ public class PlanoDAO {
 	static PreparedStatement ps = null;
 	
 	
-	public void cadastrarPlano(Plano plano) {
+	public static void cadastrarPlano(Plano plano) {
 		String sql = "INSERT INTO plano (nome, duracao, valor, descricao) "
 				+ "VALUES (?, ?, ?, ?)";
 		

@@ -11,7 +11,7 @@ import academia.db.Conexao;
 public class AlunoDAO {
 	static PreparedStatement ps = null;
 	
-	public void cadastrar(Aluno aluno) {
+	public static void cadastrar(Aluno aluno, String plano) {
 		String sqlPessoa = "INSERT INTO pessoa "
 				+ "(nome, cpf, dataNascimento, contato, senha, tipo) VALUES (?, ?, ?, ?, ?, 'Aluno')";
 		
@@ -34,7 +34,7 @@ public class AlunoDAO {
 				+ "VALUES (currval('pessoa_id_seq'), ?, ?)";
 		try {
 			PreparedStatement ps = Conexao.conectar().prepareStatement(sqlAluno);
-			ps.setInt(1, getPlanoID(aluno));
+			ps.setInt(1, getPlanoID(plano));
 			ps.setDate(2, java.sql.Date.valueOf(aluno.getDataMatricula()));
 			
 			ps.executeUpdate();
@@ -67,13 +67,13 @@ public class AlunoDAO {
 		return alunoID;
 	}
 	
-	public int getPlanoID(Aluno aluno) {
+	public static int getPlanoID(String nomePlano) {
 		String sql = "SELECT id FROM plano WHERE nome = ?";
 		ResultSet rs;
 		int idPlano = 0;
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
-			ps.setString(1, aluno.getPlanoContratado());
+			ps.setString(1, nomePlano);
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
@@ -81,7 +81,7 @@ public class AlunoDAO {
 			}
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			System.out.println("Plano Inexistente! " + e);
 		}
 		return idPlano;
 	}

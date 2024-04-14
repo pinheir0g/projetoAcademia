@@ -1,5 +1,9 @@
 package academia.classes;
 
+import java.util.Scanner;
+
+import academia.DAO.PlanoDAO;
+
 public class Plano {
 	private String nome;
 	private String duracao;
@@ -36,6 +40,23 @@ public class Plano {
 		return duracao;
 	}
 
+	public static void cadastraPlano() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o nome do Plano: ");
+        String nomePlano = scanner.nextLine();
+        System.out.println("Digite a duração do Plano (Mensal / Semestral / Anual): ");
+        String duracao = scanner.nextLine();
+        System.out.println("Digite o valor do Plano: ");
+        double valor = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.println("Digite a descrição do Plano: ");
+        String descricao = scanner.nextLine();
+        
+        Plano novoPlano = new Plano(nomePlano, duracao, valor, descricao);
+        PlanoDAO.cadastrarPlano(novoPlano);
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("""

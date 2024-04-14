@@ -11,7 +11,7 @@ public class PersonalTrainerDAO {
 	static PreparedStatement ps = null;
 	
 	
-	public void cadastraPersonal(PersonalTrainer personal) {
+	public static void cadastraPersonal(PersonalTrainer personal) {
 		String sqlPessoa = "INSERT INTO pessoa "
 				+ "(nome, cpf, dataNascimento, contato, senha, tipo) VALUES (?, ?, ?, ?, ?, 'PersonalTrainer')";
 		
