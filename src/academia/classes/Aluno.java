@@ -1,5 +1,6 @@
 package academia.classes;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -31,17 +32,13 @@ public class Aluno extends Pessoa{
 		return avaliacoesFisicas;
 	}
 	
-	public String info() {
-		return "";
-	}
 	
 	public void soliciarAgendamento(PersonalTrainer personalTrainer, LocalDate data, LocalDate horario) {
 		
 	}
-	
 	public void cancelarAgendamento(Agendamento agendamento) {
 		
-	}
+	}	
 	
 	public static void cadastraAluno() {
 		Scanner scanner = new Scanner(System.in);

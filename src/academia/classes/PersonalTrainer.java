@@ -48,7 +48,7 @@ public class PersonalTrainer extends Pessoa {
 	
 	public void viasualizarAvaliacoesFeitas() {
 	 	
-	}
+  }
 	public static void cadastraPersonal() {
 		Scanner scanner = new Scanner(System.in);
 		
