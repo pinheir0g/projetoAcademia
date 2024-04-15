@@ -1,18 +1,19 @@
 package academia.DAO;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import academia.classes.Aluno;
 import academia.classes.PersonalTrainer;
-import academia.classes.Pessoa;
 import academia.db.Conexao;
 
 public class AgendamentoDAO {
-	PreparedStatement ps = null;
+	static PreparedStatement ps = null;
 	
 	public void solicitarAgendamento(PersonalTrainer personal, Aluno aluno, LocalDate data, LocalTime hora) {
 		String sql = "INSERT INTO agendamento (aluno_id, personal_id, data, horario)"
@@ -21,8 +22,8 @@ public class AgendamentoDAO {
 			ps = Conexao.conectar().prepareStatement(sql);
 			ps.setInt(1, AlunoDAO.getAlunoID(aluno));
 			ps.setInt(2, PersonalTrainerDAO.getPersonalID(personal));
-			ps.setDate(3, java.sql.Date.valueOf(data));
-			ps.setTime(4, java.sql.Time.valueOf(hora));
+			ps.setDate(3, Date.valueOf(data));
+			ps.setTime(4, Time.valueOf(hora));
 			
 			ps.executeUpdate();
 			ps.close();
@@ -32,7 +33,7 @@ public class AgendamentoDAO {
 		}
 	}
 	
-	public String hitoricoAgendamentos(Pessoa pessoa) {
+	public static String hitoricoAgendamentos(String cpf) {
 		String sql = "SELECT p.nome as nome_aluno, pa.nome as nome_personal, ag.data, ag.horario "
 				+ "from Agendamento ag "
 				+ "JOIN Aluno a ON ag.aluno_id = a.id "
@@ -43,7 +44,7 @@ public class AgendamentoDAO {
 		StringBuilder dados = new StringBuilder();
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
-			ps.setString(1, pessoa.getCpf());
+			ps.setString(1, cpf);
 			try (ResultSet rs = ps.executeQuery()){
 				while(rs.next()) {
 					String nomeAluno = rs.getString("nome_aluno");
