@@ -28,7 +28,7 @@ public class PlanoDAO {
 		}
 	}
 	
-	public String exibirPlanos() {
+	public static String exibirPlanos() {
 		String sql = "SELECT nome, duracao, valor, descricao FROM plano";
 		StringBuilder dados = new StringBuilder();
 		try {
@@ -41,10 +41,12 @@ public class PlanoDAO {
 					String descricao = rs.getString("descricao");
 					Double valor = rs.getDouble("valor");
 					dados.append(String.format("""
+					
 					Nome: %s
 					Duracão: %s
 					Valor: R$ %.2f
 					Descricao: %s
+					------------------------------------
 					""", nome, duracao, valor, descricao));
 				}
 			}

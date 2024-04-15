@@ -45,7 +45,7 @@ public class FuncionarioDAO {
 		}
 	}
 
-	public String exibeFuncionarios() {
+	public static String exibeFuncionarios() {
 		String sql = "SELECT p.nome, p.dataNascimento, p.contato, f.cargo "
 				+ "FROM Pessoa p "
 				+ "INNER JOIN Funcionario f ON p.id = f.id ";
@@ -59,11 +59,12 @@ public class FuncionarioDAO {
 					String contato = rs.getString("contato");
 					String cargo = rs.getString("cargo");
 					dados.append(String.format("""
+							
 					Nome: %s
 					Data de Nascimento: %s
 					Contato: %s
 					Cargo: %s
-					
+					---------------------------------
 					""", nome, dataNascimento, contato, cargo));
 				}
 			}

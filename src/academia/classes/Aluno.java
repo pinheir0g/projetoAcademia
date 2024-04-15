@@ -84,6 +84,7 @@ public class Aluno extends Pessoa{
 		
 		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula);
 		AlunoDAO.cadastrar(novoAluno, plano);
+		scanner.close();
 	}
 }
 

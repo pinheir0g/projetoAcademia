@@ -48,8 +48,7 @@ public class PersonalTrainer extends Pessoa {
 	
 	public void viasualizarAvaliacoesFeitas() {
 	 	
-	}
-	
+  }
 	public static void cadastraPersonal() {
 		Scanner scanner = new Scanner(System.in);
 		
@@ -99,6 +98,7 @@ public class PersonalTrainer extends Pessoa {
 		
 		PersonalTrainer novoPersonal = new PersonalTrainer(nomePersonal, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento);
 		PersonalTrainerDAO.cadastraPersonal(novoPersonal);
+		scanner.close();
 	}
 		
 	@Override

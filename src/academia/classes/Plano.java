@@ -55,6 +55,7 @@ public class Plano {
         
         Plano novoPlano = new Plano(nomePlano, duracao, valor, descricao);
         PlanoDAO.cadastrarPlano(novoPlano);
+        scanner.close();
 	}
 	
 	@Override

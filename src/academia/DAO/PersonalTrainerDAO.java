@@ -1,10 +1,11 @@
 package academia.DAO;
 
-import academia.classes.PersonalTrainer;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import academia.classes.PersonalTrainer;
 import academia.db.Conexao;
 
 public class PersonalTrainerDAO {
@@ -19,7 +20,7 @@ public class PersonalTrainerDAO {
 			ps = Conexao.conectar().prepareStatement(sqlPessoa);
 			ps.setString(1, personal.getNome());
 			ps.setString(2, personal.getCpf());
-			ps.setDate(3, java.sql.Date.valueOf(personal.getDataNascimento()));
+			ps.setDate(3, Date.valueOf(personal.getDataNascimento()));
 			ps.setString(4, personal.getContato());
 			ps.setString(5, personal.getSenha());
 		
@@ -67,6 +68,42 @@ public class PersonalTrainerDAO {
 			e.printStackTrace();
 		}
 		return personalID;
+	}
+	
+	public static String exibePersonalTrainers() {
+		String sql = "SELECT p.nome, p.cpf, p,dataNascimento, p.contato, pt.especialidade, pt.cref, pt.horarioAtendimento "
+				+ "FROM Pessoa p "
+				+ "JOIN PersonalTrainer pt ON pt.id = p.id";
+		StringBuilder dados = new StringBuilder();
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			try(ResultSet rs = ps.executeQuery()){
+				while(rs.next()) {
+					String nome = rs.getString("nome");
+					String cpf = rs.getString("cpf");
+					String dataNascimento = rs.getString("dataNascimento");
+					String contato = rs.getString("contato");
+					String especialidade = rs.getString("especialidade");
+					String cref = rs.getString("cref");
+					String horarioAtendimento = rs.getString("horarioAtendimento");
+					dados.append(String.format("""
+							
+							Nome: %s
+							CPF: %s
+							Data de Nascimento: %s
+							Contato: %s
+							Especialidade: %s
+							CREF: %s
+							Horario Atendimento: %s
+							--------------------------------
+							""", nome, cpf, dataNascimento, contato, especialidade, cref, horarioAtendimento));
+				}
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return dados.toString();
+				
 	}
 	
 }

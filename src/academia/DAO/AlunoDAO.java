@@ -1,5 +1,6 @@
 package academia.DAO;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ public class AlunoDAO {
 			ps = Conexao.conectar().prepareStatement(sqlPessoa);
 			ps.setString(1, aluno.getNome());
 			ps.setString(2, aluno.getCpf());
-			ps.setDate(3, java.sql.Date.valueOf(aluno.getDataNascimento()));
+			ps.setDate(3, Date.valueOf(aluno.getDataNascimento()));
 			ps.setString(4, aluno.getContato());
 			ps.setString(5, aluno.getSenha());
 		
@@ -35,7 +36,8 @@ public class AlunoDAO {
 		try {
 			PreparedStatement ps = Conexao.conectar().prepareStatement(sqlAluno);
 			ps.setInt(1, getPlanoID(plano));
-			ps.setDate(2, java.sql.Date.valueOf(aluno.getDataMatricula()));
+			ps.setDate(2, Date.valueOf(aluno.getDataMatricula()));
+
 			
 			ps.executeUpdate();
 			ps.close();
@@ -81,7 +83,7 @@ public class AlunoDAO {
 			}
 			
 		}catch(SQLException e) {
-			System.out.println("Plano Inexistente! " + e);
+			e.printStackTrace();
 		}
 		return idPlano;
 	}
@@ -122,7 +124,7 @@ public class AlunoDAO {
 		return dados.toString();
 	}
 	
-	public String exibirAlunos() {
+	public static String exibirAlunos() {
 
 		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, pl.nome as nome_plano "
 				+ "FROM Pessoa p "
@@ -141,12 +143,13 @@ public class AlunoDAO {
 					String contato = rs.getString("contato");
 					String plano = rs.getString("nome_plano");
 					dados.append(String.format("""
+							
 					Nome: %s
 					CPF: %s
 					Data de Nascimento: %s
 					Contato: %s
 					Plano: %s
-					
+					------------------------------------
 					""", nome, cpf, dataNascimento, contato, plano));
 				}
 			}
