@@ -1,6 +1,5 @@
 package academia.classes;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import academia.DAO.AlunoDAO;
+import academia.DAO.PlanoDAO;
 
 public class Aluno extends Pessoa{
 	private String planoContratado;
@@ -49,16 +49,18 @@ public class Aluno extends Pessoa{
 		System.out.println("Digite o CPF do Aluno: ");
 		String cpf = scanner.nextLine();
 		
-		System.out.println("Digite a Data de Nascimento do Aluno: (no formato dd/MM/yyyy)");
-		String data = scanner.nextLine();
-		
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate dataNascimento = null;
-		try {
-			dataNascimento = LocalDate.parse(data, df);
-		}catch(Exception e) {
-			System.out.println("Dormato de data inválido. Use o formato dd/MM/yyyy.");
-		}
+		do {
+			dataNascimento = null;
+			System.out.println("Digite a Data de Nascimento do Aluno: (no formato dd/MM/yyyy)");
+			String data = scanner.nextLine();
+			try {
+				dataNascimento = LocalDate.parse(data, df);
+			}catch(Exception e) {
+				System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
+			}
+		}while(dataNascimento == null);
 		
 		System.out.println("Digite o contato do Aluno: ");
 		String contato = scanner.nextLine();
@@ -72,7 +74,7 @@ public class Aluno extends Pessoa{
 			valida = true;
 			System.out.println("Digite o Plano do Aluno: ");
 			plano = scanner.nextLine();
-			int planoId = AlunoDAO.getPlanoID(plano);
+			int planoId = PlanoDAO.getPlanoID(plano);
 			if(planoId == 0){
 				System.out.println("Plano inexistente!");
 				valida = false;
@@ -84,7 +86,6 @@ public class Aluno extends Pessoa{
 		
 		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula);
 		AlunoDAO.cadastrar(novoAluno, plano);
-		scanner.close();
 	}
 }
 

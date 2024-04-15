@@ -11,6 +11,7 @@ import academia.DAO.PersonalTrainerDAO;
 import academia.DAO.PlanoDAO;
 import academia.DAO.ValidacaoDAO;
 import academia.classes.Aluno;
+import academia.classes.Avaliacao;
 import academia.classes.PersonalTrainer;
 import academia.classes.Plano;
 
@@ -42,7 +43,6 @@ public class Menus {
 	}
 	
 	public static void menuAluno() {
-		
 		 Scanner scanner = new Scanner(System.in);
 		 boolean validador;
 		 int opcaoUsuario = 0;
@@ -90,7 +90,7 @@ public class Menus {
                     System.out.println("Plano Cadastrado");
                     break;
                 case 3:
-                    System.out.println("Cancelar Agendamento.");
+                    System.out.println("Solicitar Agendamento com Personal Trainer.");
                     break;
                 case 4:
                     System.out.println("Histórico de Agendamento");
@@ -154,7 +154,8 @@ public class Menus {
 
                     break;
                 case 2:
-                    System.out.println("Plano Cadastrado");
+                    System.out.println("Registrar Avaliação");
+                   
                     break;
                 case 3:
                     System.out.println("Cancelar Agendamento.");
@@ -244,7 +245,11 @@ public class Menus {
                      System.out.println(PersonalTrainerDAO.exibePersonalTrainers());
                     break;   
                 case 7:
-                    System.out.println("Emitir Relatorio de Avaliacoes por periodo");
+                    System.out.println("Relatorio de Avaliacoes por periodo");
+                    System.out.println("--------------------------------------");
+                    System.out.println("	RELATÓRIO DE AVALIAÇÕES");
+                    System.out.println("--------------------------------------");
+                    System.out.println(Avaliacao.exibirAvaliacoes());
                     break;        
                 case 8:
                 	break;

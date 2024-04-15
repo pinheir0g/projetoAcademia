@@ -92,13 +92,12 @@ public class PersonalTrainer extends Pessoa {
 			try {
 				horarioAtendimento = LocalTime.parse(horario, tf);
 			}catch(Exception e) {
-				System.out.println("Dormato de data inválido. Use o formato dd/MM/yyyy.");
+				System.out.println("Formato de horario inválido. Use o formato dd/MM/yyyy.");
 			}
 		}while(horarioAtendimento == null);
 		
 		PersonalTrainer novoPersonal = new PersonalTrainer(nomePersonal, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento);
 		PersonalTrainerDAO.cadastraPersonal(novoPersonal);
-		scanner.close();
 	}
 		
 	@Override

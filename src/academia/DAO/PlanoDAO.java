@@ -23,6 +23,7 @@ public class PlanoDAO {
 			ps.setString(4, plano.getDescricao());
 			
 			ps.executeUpdate();
+			ps.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -54,5 +55,24 @@ public class PlanoDAO {
 			e.printStackTrace();
 		}
 		return dados.toString();
+	}
+	
+	public static int getPlanoID(String nomePlano) {
+		String sql = "SELECT id FROM plano WHERE nome = ?";
+		ResultSet rs;
+		int idPlano = 0;
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			ps.setString(1, nomePlano);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				idPlano = rs.getInt("id");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return idPlano;
 	}
 }

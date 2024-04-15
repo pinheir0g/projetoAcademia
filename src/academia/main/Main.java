@@ -11,6 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		List<String> login = new ArrayList<>();
+		
 		int inicio = Inicio.menu();
 		while(true) {
 			login.clear();

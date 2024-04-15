@@ -35,7 +35,7 @@ public class AlunoDAO {
 				+ "VALUES (currval('pessoa_id_seq'), ?, ?)";
 		try {
 			PreparedStatement ps = Conexao.conectar().prepareStatement(sqlAluno);
-			ps.setInt(1, getPlanoID(plano));
+			ps.setInt(1, PlanoDAO.getPlanoID(plano));
 			ps.setDate(2, Date.valueOf(aluno.getDataMatricula()));
 
 			
@@ -69,26 +69,8 @@ public class AlunoDAO {
 		return alunoID;
 	}
 	
-	public static int getPlanoID(String nomePlano) {
-		String sql = "SELECT id FROM plano WHERE nome = ?";
-		ResultSet rs;
-		int idPlano = 0;
-		try {
-			ps = Conexao.conectar().prepareStatement(sql);
-			ps.setString(1, nomePlano);
-			rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				idPlano = rs.getInt("id");
-			}
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return idPlano;
-	}
 	
-	public String exibirDados(Aluno aluno) {
+	public String exibirDados(String cpf) {
 
 		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, pl.nome as nome_plano "
 				+ "FROM Pessoa p "
@@ -98,12 +80,12 @@ public class AlunoDAO {
 		StringBuilder dados = new StringBuilder();
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
-			ps.setString(1, aluno.getCpf());
+			ps.setString(1, cpf);
 			
 			try (ResultSet rs = ps.executeQuery()) {
 				if(rs.next()) {
 					String nome = rs.getString("nome_aluno");
-					String cpf = rs.getString("cpf");
+					String cpfAluno = rs.getString("cpf");
 					String dataNascimento = rs.getString("dataNascimento");
 					String contato = rs.getString("contato");
 					String plano = rs.getString("nome_plano");
@@ -114,7 +96,7 @@ public class AlunoDAO {
 					Contato: %s
 					Plano: %s 
 					
-					""", nome, cpf, dataNascimento, contato, plano));
+					""", nome, cpfAluno, dataNascimento, contato, plano));
 				}
 			}
 			

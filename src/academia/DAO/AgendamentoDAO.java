@@ -60,7 +60,6 @@ public class AgendamentoDAO {
 							""", nomeAluno, nomePersonal, data, horario));
 				}
 			}
-			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

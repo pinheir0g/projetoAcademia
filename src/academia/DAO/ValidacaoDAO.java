@@ -34,5 +34,4 @@ public class ValidacaoDAO {
 		}
 		return dadosUsuario;
 	}
-	
 }
