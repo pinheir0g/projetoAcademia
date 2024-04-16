@@ -11,7 +11,7 @@ import academia.db.Conexao;
 public class FuncionarioDAO {
 	static PreparedStatement ps = null;
 	
-	public void cadastrar(Funcionario funcionario) {
+	public static void cadastrar(Funcionario funcionario) {
 		String sqlPessoa = "INSERT INTO pessoa "
 				+ "(nome, cpf, dataNascimento, contato, senha, tipo) VALUES (?, ?, ?, ?, ?, 'Funcionario')";
 		

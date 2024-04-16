@@ -1,11 +1,14 @@
 package academia.menus;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
+import academia.DAO.AvaliacaoDAO;
 import academia.DAO.FuncionarioDAO;
 import academia.DAO.PersonalTrainerDAO;
 import academia.DAO.PlanoDAO;
@@ -51,13 +54,12 @@ public class Menus {
 		 ---------------------------------------
 		 	GERENCIAMENTO DE ALUNOS
 		 ---------------------------------------
-			  1 - Dados Pessoais 
-			  2 - Plano Cadastrado 
-			  3 - Solicitar agendamento com Personal
-			  4 - Histórico de Agendamento
-			  5 - Cancelar Agendamento
-			  6 - Visualizar Avaliações Físicas
-			  7 - Sair
+			  1 - Dados Pessoais e Plano Cadastrado 
+			  2 - Solicitar agendamento com Personal
+			  3 - Histórico de Agendamento
+			  4 - Cancelar Agendamento
+			  5 - Visualizar Avaliações Físicas
+			  6 - Sair
 			
 			Escolha uma opção: 
 			""";
@@ -84,24 +86,43 @@ public class Menus {
 
              switch (opcaoUsuario) {
                 case 1:
-                    System.out.println("Dados Pessoais");
+                    System.out.println("-----------------------------------");
+                    System.out.println("       DADOS DO ALUNO              ");
+                    System.out.println("-----------------------------------");
+                   
+                    System.out.println(AlunoDAO.exibirDados(cpf));
                     break;
                 case 2:
-                    System.out.println("Plano Cadastrado");
+                	  System.out.println("-----------------------------------");
+                      System.out.println("      SOLICITAR AGENDAMENTO        ");
+                      System.out.println("-----------------------------------");
+                      
+                   
                     break;
                 case 3:
-                    System.out.println("Solicitar Agendamento com Personal Trainer.");
+                	 System.out.println("-----------------------------------");
+                     System.out.println("     HISTÓRICO DE AGENDAMENTO      ");
+                     System.out.println("-----------------------------------");
+                     
+                     System.out.println(AgendamentoDAO.hitoricoAgendamentos(cpf));
+                     
                     break;
                 case 4:
-                    System.out.println("Histórico de Agendamento");
+               	 System.out.println("-----------------------------------");
+                 System.out.println("        CANCELAR AGENDAMENTO       ");
+                 System.out.println("-----------------------------------");
+                 
+                 
                     break;
                 case 5:
-                    System.out.println("Cancelar Agendamento");
-                    break;
-                case 6:
-                    System.out.println("Visualizar Avaliação Física");
+               	 System.out.println("-----------------------------------");
+                 System.out.println("     VISUALIZAR AVALIAÇÃO FÍSICA   ");
+                 System.out.println("-----------------------------------");
+                 
+                 System.out.println(AvaliacaoDAO.exibirAvaliacaoAluno(cpf));
+                 
                     break;                    
-                case 7:
+                case 6:
                     break;
              }
              if(opcaoUsuario == 7) break;
@@ -155,6 +176,7 @@ public class Menus {
                     break;
                 case 2:
                     System.out.println("Registrar Avaliação");
+                    
                    
                     break;
                 case 3:

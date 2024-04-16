@@ -61,7 +61,7 @@ public class AlunoDAO {
 			if(rs.next()) {
 				alunoID = rs.getInt("id");
 			}else {
-				System.out.println("Personal Trainer não encontrado para o CPF: " + aluno.getCpf());
+				System.out.println("Aluno não encontrado para o CPF: " + aluno.getCpf());
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -70,7 +70,7 @@ public class AlunoDAO {
 	}
 	
 	
-	public String exibirDados(String cpf) {
+	public static String exibirDados(String cpf) {
 
 		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, pl.nome as nome_plano "
 				+ "FROM Pessoa p "

@@ -1,8 +1,11 @@
 package academia.main;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import academia.DAO.AlunoDAO;
+import academia.classes.Aluno;
 import academia.menus.Inicio;
 import academia.menus.Menus;
 
@@ -10,6 +13,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+					
 		List<String> login = new ArrayList<>();
 		
 		int inicio = Inicio.menu();

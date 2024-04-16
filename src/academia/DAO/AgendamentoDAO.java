@@ -15,7 +15,7 @@ import academia.db.Conexao;
 public class AgendamentoDAO {
 	static PreparedStatement ps = null;
 	
-	public void solicitarAgendamento(PersonalTrainer personal, Aluno aluno, LocalDate data, LocalTime hora) {
+	public static void solicitarAgendamento(PersonalTrainer personal, Aluno aluno, LocalDate data, LocalTime hora) {
 		String sql = "INSERT INTO agendamento (aluno_id, personal_id, data, horario)"
 				+ "VALUES (?, ?, ?, ?)";
 		try {
