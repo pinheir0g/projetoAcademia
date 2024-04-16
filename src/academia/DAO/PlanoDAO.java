@@ -3,6 +3,9 @@ package academia.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import academia.classes.Plano;
 import academia.db.Conexao;
 
@@ -13,7 +16,6 @@ public class PlanoDAO {
 	public static void cadastrarPlano(Plano plano) {
 		String sql = "INSERT INTO plano (nome, duracao, valor, descricao) "
 				+ "VALUES (?, ?, ?, ?)";
-		
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
 			ps.setString(1, plano.getNome());
@@ -28,34 +30,29 @@ public class PlanoDAO {
 		}
 	}
 	
-	public static String exibirPlanos() {
-		String sql = "SELECT id, nome, duracao, valor, descricao FROM plano";
-		StringBuilder dados = new StringBuilder();
+	public static List<Plano> exibirPlanos() {
+		String sql = "SELECT nome, duracao, valor, descricao FROM plano";
+		List<Plano> planos = new ArrayList<>();
+		Plano plano = null;
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
 			ps.executeQuery();
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
-					int id = rs.getInt("id");
+	;
 					String nome = rs.getString("nome");
 					String duracao = rs.getString("duracao");
+					double valor = rs.getDouble("valor");
 					String descricao = rs.getString("descricao");
-					Double valor = rs.getDouble("valor");
-					dados.append(String.format("""
 					
-					ID: %d
-					Nome: %s
-					Duracão: %s
-					Valor: R$ %.2f
-					Descricao: %s
-					------------------------------------
-					""", id, nome, duracao, valor, descricao));
+					plano = new Plano(nome, duracao, valor, descricao);
+					planos.add(plano);
 				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dados.toString();
+		return planos;
 	}
 	
 	public static int getPlanoID(String nomePlano) {

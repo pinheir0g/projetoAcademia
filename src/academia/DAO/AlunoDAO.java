@@ -74,7 +74,6 @@ public class AlunoDAO {
 		return alunoID;
 	}
 	
-	
 	public static String exibirDados(String cpf) {
 
 		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, pl.nome as nome_plano "

@@ -3,7 +3,10 @@ package academia.classes;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import academia.DAO.AlunoDAO;
 import academia.DAO.AvaliacaoDAO;
+import academia.DAO.PersonalTrainerDAO;
+import academia.services.ValidacaoPessoa;
 
 public class Avaliacao {
 	private Aluno aluno;
@@ -43,6 +46,22 @@ public class Avaliacao {
 	}
 	
 	public static void cadastrarAvaliacao() {
+		Scanner scanner = new Scanner(System.in);
+		
+		
+		System.out.println("Digite o seu CPF: ");
+		String cpfPersonal = scanner.nextLine();
+		System.out.println("Digite o CPF do Aluno: ");
+		String cpfAluno = scanner.nextLine();
+		
+		PersonalTrainer personal = PersonalTrainerDAO.getDadosPersonal(cpfPersonal);
+		Aluno aluno = AlunoDAO.getAluno(cpfAluno);
+		
+		LocalDate dataAvaliacao = ValidacaoPessoa.validaDataAvaliacao();
+		System.out.println("Digite a descrição da Avaliação: ");
+		String descricao = scanner.nextLine();
+		
+		AvaliacaoDAO.cadastrarAvaliacao(personal, aluno, dataAvaliacao, descricao);
 	}
 	
 	public static String exibirAvaliacoes() {
