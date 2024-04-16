@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import academia.DAO.AlunoDAO;
 import academia.DAO.PlanoDAO;
+import academia.services.ValidacaoPessoa;
 
 public class Aluno extends Pessoa{
 	private Plano planoContratado;
@@ -42,38 +43,27 @@ public class Aluno extends Pessoa{
 	public static void cadastraAluno() {
 		Scanner scanner = new Scanner(System.in);
 		
-		
-		System.out.println("Digite o nome do Aluno: ");
-		String nomeAluno = scanner.nextLine();
-		
-		System.out.println("Digite o CPF do Aluno: ");
-		String cpf = scanner.nextLine();
-		
-		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dataNascimento = null;
-		do {
-			dataNascimento = null;
-			System.out.println("Digite a Data de Nascimento do Aluno: (no formato dd/MM/yyyy)");
-			String data = scanner.nextLine();
-			try {
-				dataNascimento = LocalDate.parse(data, df);
-			}catch(Exception e) {
-				System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
-			}
-		}while(dataNascimento == null);
+		String nomeAluno = ValidacaoPessoa.validaNome();
+		String cpf = ValidacaoPessoa.validaCpf();
+		LocalDate dataNascimento = ValidacaoPessoa.validaDataNascimento();
 		
 		System.out.println("Digite o contato do Aluno: ");
 		String contato = scanner.nextLine();
 		
 		System.out.println("Digite a senha do Aluno: ");
+		
 		String senha = scanner.nextLine();
 		
 		boolean valida;
 		int idPlano;
 		do {
 			valida = true;
+			int cont = 0;
 			System.out.println("Escolha o plano do Aluno: ");
-			System.out.println(PlanoDAO.exibirPlanos());
+			for(Plano plano: PlanoDAO.exibirPlanos()) {
+				cont++;
+				System.out.println("\nID: " + cont + "\n" + plano);
+			}
 			idPlano = scanner.nextInt();
 			if(idPlano < 1 || idPlano > 4){
 				System.out.println("Plano inexistente!");

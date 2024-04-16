@@ -1,7 +1,5 @@
 package academia.menus;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +14,7 @@ import academia.classes.Aluno;
 import academia.classes.Avaliacao;
 import academia.classes.PersonalTrainer;
 import academia.classes.Plano;
+import academia.services.ValidacaoPlano;
 
 public class Menus {
 	private static String cpf = "";
@@ -32,6 +31,7 @@ public class Menus {
 			String senha = sc.nextLine();
 			
 			dadosUsuario = ValidacaoDAO.conectaUsuario(cpf, senha);
+			
 		
 			if (!dadosUsuario.isEmpty()) {
 				System.out.println("Logado com sucesso!\n");
@@ -115,7 +115,7 @@ public class Menus {
                 case 6:
                     break;
              }
-             if(opcaoUsuario == 7) break;
+             if(opcaoUsuario == 6) break;
          }
     }
 	
@@ -165,6 +165,8 @@ public class Menus {
                     break;
                 case 2:
                     System.out.println("Registrar Avaliação");
+                    Avaliacao.cadastrarAvaliacao();
+                    System.out.println("Avaliação registrada com Sucesso!");
                     break;
                 case 3:
                     System.out.println("Avaliações Realizadas.");
@@ -219,8 +221,10 @@ public class Menus {
             switch (opcaoUsuario) {
 	            case 1:
 	            	System.out.println("Cadastrar novo Plano\n");
-	                Plano.cadastraPlano();
-	                System.out.println("Plano cadastrado com sucesso!");
+	            	if(ValidacaoPlano.validaTotalDePlanos()) {
+	            		Plano.cadastraPlano();
+	            		System.out.println("Plano cadastrado com sucesso!");
+	            	}
 	                break;
 	            case 2:
 	                System.out.println("Cadastrar Aluno");
@@ -236,7 +240,10 @@ public class Menus {
                 	System.out.println("-----------------------------------");
                     System.out.println("	RELATÓRIO DE PLANOS");
                     System.out.println("-----------------------------------");
-                    System.out.println(PlanoDAO.exibirPlanos());
+                    for(Plano plano : PlanoDAO.exibirPlanos()) {
+                    	System.out.println(plano);
+                    	System.out.println("--------------------------------");
+                    }
                     break;
                 case 5:
                 	System.out.println("-----------------------------------");

@@ -3,6 +3,7 @@ package academia.classes;
 import java.util.Scanner;
 
 import academia.DAO.PlanoDAO;
+import academia.services.ValidacaoPlano;
 
 public class Plano {
 	private String nome;
@@ -42,10 +43,15 @@ public class Plano {
 
 	public static void cadastraPlano() {
 		Scanner scanner = new Scanner(System.in);
+		boolean verificaPlano;
 		
-		System.out.println("Digite o nome do Plano: ");
-        String nomePlano = scanner.nextLine();
-        System.out.println("Digite a duração do Plano (Mensal / Semestral / Anual): ");
+		String nomePlano;
+        do {
+        	System.out.println("Digite o nome do Plano: ");
+            nomePlano = scanner.nextLine();
+        	verificaPlano = ValidacaoPlano.validaNomePlano(nomePlano);
+        }while(!verificaPlano);
+        System.out.println("Digite a duração do Plano (Mensal / Trimestral /Semestral /Anual): ");
         String duracao = scanner.nextLine();
         System.out.println("Digite o valor do Plano: ");
         double valor = scanner.nextDouble();
@@ -62,7 +68,7 @@ public class Plano {
 		return String.format("""
 				Nome:%s
 				Duração: %s
-				Valor: %d.2f
+				Valor: R$ %s
 				Descricao: %s
 				""", nome, duracao, valor, descricao);
 	}
