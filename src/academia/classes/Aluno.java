@@ -1,11 +1,15 @@
 package academia.classes;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
+import academia.DAO.PersonalTrainerDAO;
 import academia.DAO.PlanoDAO;
 
 public class Aluno extends Pessoa{
@@ -31,12 +35,60 @@ public class Aluno extends Pessoa{
 		return avaliacoesFisicas;
 	}
 	
-	
-	public void soliciarAgendamento(PersonalTrainer personalTrainer, LocalDate data, LocalDate horario) {
-		
+	public static void soliciarAgendamento(String cpf) {
+		Scanner sc = new Scanner(System.in);
+		Aluno aluno = null;
+		PersonalTrainer personal = null;
+		int id = 0;
+		boolean continua = true;
+		System.out.println(PersonalTrainerDAO.exibePersonalTrainers());
+		System.out.println("Com qual Personal Trainer deseja agendar? ");
+		do {
+			continua = true;
+			if(sc.hasNextInt()) { 
+				id = sc.nextInt();
+				continua = false;
+				aluno = AlunoDAO.getAluno(cpf);
+				personal = PersonalTrainerDAO.getPersonal(id);
+				System.out.println("Digite a data do agendamento: ");
+				sc.nextLine();
+				String data = sc.nextLine();
+				System.out.println("Digite o horario do agendamento: ");
+				String horario = sc.nextLine();
+				
+				LocalDate dataAgendada = LocalDate.parse(data);
+				LocalTime horarioAgendado = LocalTime.parse(horario);
+				
+				AgendamentoDAO.solicitarAgendamento(personal, aluno, dataAgendada, horarioAgendado);
+				
+				
+			} else {
+				sc.nextLine();
+			}
+		}while(continua == true);
 	}
-	public void cancelarAgendamento(Agendamento agendamento) {
-		
+	
+	public static void cancelarAgendamento(String cpf) {
+		boolean continua;
+		int id = 0;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Realmente deseja excluir um agendamento? S/N ");
+		String escolha = sc.nextLine();
+		if(escolha.equalsIgnoreCase("S")) {
+			System.out.println(AgendamentoDAO.hitoricoAgendamentos(cpf));
+			do {
+				continua = true;
+				System.out.println("Digite o ID do agendamento que você quer cancelar: ");
+				if(sc.hasNextInt()) {
+					id = sc.nextInt();
+					continua = false;
+				} else {
+					sc.nextLine();
+				}
+			} while(continua == true);
+			
+			AgendamentoDAO.cancelarAgendamento(id);
+		} 
 	}	
 	
 	public static void cadastraAluno() {
