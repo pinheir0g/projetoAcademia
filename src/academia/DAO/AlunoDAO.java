@@ -4,8 +4,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import academia.classes.Aluno;
+import academia.classes.Plano;
 import academia.db.Conexao;
 
 
@@ -143,5 +145,40 @@ public class AlunoDAO {
 			e.printStackTrace();
 		}
 		return dados.toString();
+	}
+	
+	public static Aluno getAluno(String cpf) {
+		ResultSet rs;
+		Aluno aluno = null;
+		Plano plano = null;
+		
+		String sql = "select nome, cpf, datanascimento, contato, senha, a.plano_id, a.datamatricula  "
+				+ "from aluno a  "
+				+ "join pessoa p on a.id = p.id "
+				+ "where p.cpf = ?";
+		
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			ps.setString(1, cpf);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) { 
+				String nome = rs.getString("nome");
+				String data = rs.getString("datanascimento");
+				String contato = rs.getString("contato");
+				String senha = rs.getString("senha");
+				int planoId = rs.getInt("plano_id");
+				String dataM = rs.getString("datamatricula");
+				
+				LocalDate dataNascimento = LocalDate.parse(data);
+				LocalDate dataMatricula = LocalDate.parse(dataM);
+				plano = PlanoDAO.getPlano(planoId);
+				aluno = new Aluno(nome, cpf, dataNascimento, contato, senha, plano, dataMatricula);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	return aluno;
 	}
 }

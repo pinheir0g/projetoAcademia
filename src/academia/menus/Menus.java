@@ -94,6 +94,7 @@ public class Menus {
                 	System.out.println("-----------------------------------");
                 	System.out.println("      SOLICITAR AGENDAMENTO        ");
                 	System.out.println("-----------------------------------");
+                	Aluno.soliciarAgendamento(cpf);
                 	break;
                 case 3:
                 	System.out.println("-----------------------------------");
@@ -105,6 +106,7 @@ public class Menus {
                 	System.out.println("-----------------------------------");
                	 	System.out.println("        CANCELAR AGENDAMENTO       ");
                  	System.out.println("-----------------------------------");
+                 	Aluno.cancelarAgendamento(cpf);
                     break;
                 case 5:
                 	System.out.println("-----------------------------------");
@@ -117,6 +119,7 @@ public class Menus {
              }
              if(opcaoUsuario == 7) break;
          }
+         
     }
 	
 	

@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class Conexao {
 	private static String url = "jdbc:postgresql://localhost:5432/javact_db";
-	private static String usuario = "postgres";
-	private static String senha = "123456";
+	private static String usuario = "";
+	private static String senha = "";
 	
 	private static Connection conexao = null;
 	

@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import academia.classes.PersonalTrainer;
 import academia.db.Conexao;
@@ -71,7 +73,7 @@ public class PersonalTrainerDAO {
 	}
 	
 	public static String exibePersonalTrainers() {
-		String sql = "SELECT p.nome, p.cpf, p,dataNascimento, p.contato, pt.especialidade, pt.cref, pt.horarioAtendimento "
+		String sql = "SELECT p.nome, p.cpf, p,dataNascimento, p.contato, pt.especialidade, pt.cref, pt.horarioAtendimento, p.id "
 				+ "FROM Pessoa p "
 				+ "JOIN PersonalTrainer pt ON pt.id = p.id";
 		StringBuilder dados = new StringBuilder();
@@ -86,6 +88,7 @@ public class PersonalTrainerDAO {
 					String especialidade = rs.getString("especialidade");
 					String cref = rs.getString("cref");
 					String horarioAtendimento = rs.getString("horarioAtendimento");
+					String id = rs.getString("id");
 					dados.append(String.format("""
 							
 							Nome: %s
@@ -95,8 +98,9 @@ public class PersonalTrainerDAO {
 							Especialidade: %s
 							CREF: %s
 							Horario Atendimento: %s
+							ID: %s
 							--------------------------------
-							""", nome, cpf, dataNascimento, contato, especialidade, cref, horarioAtendimento));
+							""", nome, cpf, dataNascimento, contato, especialidade, cref, horarioAtendimento, id));
 				}
 			}
 		}catch(SQLException e) {
@@ -104,6 +108,41 @@ public class PersonalTrainerDAO {
 		}
 		return dados.toString();
 				
+	}
+	
+	public static PersonalTrainer getPersonal(int id) {
+		ResultSet rs;
+		PersonalTrainer personal = null;
+		
+		String sql = "select nome, cpf, datanascimento, contato, senha, pt.especialidade, pt.cref, pt.horarioatendimento "
+				+ "from personaltrainer pt "
+				+ "join pessoa p on pt.id = p.id "
+				+ "where pt.id = ? ";
+		
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				String nome = rs.getString("nome");
+				String cpf = rs.getString("cpf");
+				String data = rs.getString("datanascimento");
+				String contato = rs.getString("contato");
+				String senha = rs.getString("senha");
+				String especialidade = rs.getString("especialidade");
+				String cref = rs.getString("cref");
+				String horario = rs.getString("horarioatendimento");
+				LocalDate dataNascimento = LocalDate.parse(data);
+				LocalTime horarioAtendimento = LocalTime.parse(horario);
+				personal = new PersonalTrainer(nome, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return personal;
 	}
 	
 }

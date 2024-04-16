@@ -33,7 +33,7 @@ public class AgendamentoDAO {
 	}
 	
 	public static String hitoricoAgendamentos(String cpf) {
-		String sql = "SELECT p.nome as nome_aluno, pa.nome as nome_personal, ag.data, ag.horario "
+		String sql = "SELECT p.nome as nome_aluno, pa.nome as nome_personal, ag.data, ag.horario, ag.id "
 				+ "from Agendamento ag "
 				+ "JOIN Aluno a ON ag.aluno_id = a.id "
 				+ "JOIN Pessoa p ON a.id = p.id "
@@ -50,18 +50,32 @@ public class AgendamentoDAO {
 					String nomePersonal = rs.getString("nome_personal");
 					String data = rs.getString("data");
 					String horario = rs.getString("horario");
+					String id = rs.getString("id");
 					dados.append(String.format( """
 							Aluno: %s
 							Personal Trainer: %s
 							Data: %s
 							Horario: %s
-							
-							""", nomeAluno, nomePersonal, data, horario));
+							ID: %s
+							""", nomeAluno, nomePersonal, data, horario, id));
 				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return dados.toString();
+	}
+	
+	public static void cancelarAgendamento(int id) {
+		String sql = "delete from agendamento "
+				+ "where id = ? ";
+		
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
