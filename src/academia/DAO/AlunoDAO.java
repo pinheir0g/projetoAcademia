@@ -12,7 +12,7 @@ import academia.db.Conexao;
 public class AlunoDAO {
 	static PreparedStatement ps = null;
 	
-	public static void cadastrar(Aluno aluno, String plano) {
+	public static void cadastrar(Aluno aluno) {
 		String sqlPessoa = "INSERT INTO pessoa "
 				+ "(nome, cpf, dataNascimento, contato, senha, tipo) VALUES (?, ?, ?, ?, ?, 'Aluno')";
 		
@@ -34,11 +34,14 @@ public class AlunoDAO {
 		String sqlAluno = "INSERT INTO aluno (id, plano_id, dataMatricula) "
 				+ "VALUES (currval('pessoa_id_seq'), ?, ?)";
 		try {
-			PreparedStatement ps = Conexao.conectar().prepareStatement(sqlAluno);
-			ps.setInt(1, PlanoDAO.getPlanoID(plano));
-			ps.setDate(2, Date.valueOf(aluno.getDataMatricula()));
-
 			
+			PreparedStatement ps = Conexao.conectar().prepareStatement(sqlAluno);
+			
+			System.out.println(aluno.getPlanoContratado().getNome());
+			int result = PlanoDAO.getPlanoID(aluno.getPlanoContratado().getNome());
+			System.out.println(result);
+			ps.setInt(1, result);
+			ps.setDate(2, Date.valueOf(aluno.getDataMatricula()));
 			ps.executeUpdate();
 			ps.close();
 		}catch (SQLException e) {

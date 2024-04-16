@@ -26,6 +26,8 @@ public class Inicio {
 				}
 			}else {
 				System.out.println("Opção inválida! Digite apenas números!");
+				validador = false;
+				scanner.nextLine();
 			}
 			
 		}while(!validador);

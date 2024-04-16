@@ -42,6 +42,8 @@ public class Avaliacao {
 		return personalTrainer;
 	}
 	
+	public static void cadastrarAvaliacao() {
+	}
 	
 	public static String exibirAvaliacoes() {
 		Scanner sc = new Scanner(System.in);

@@ -5,22 +5,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import academia.DAO.AlunoDAO;
 import academia.DAO.PlanoDAO;
 
 public class Aluno extends Pessoa{
-	private String planoContratado;
+	private Plano planoContratado;
 	private LocalDate dataMatricula;
 	private List<Avaliacao> avaliacoesFisicas = new ArrayList<>();
 	
-	public Aluno(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, String planoContratado, LocalDate dataMatricula) {
+	public Aluno(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, Plano planoContratado, LocalDate dataMatricula) {
 		super(nome, cpf, dataNascimento, contato, senha);
 		this.planoContratado  = planoContratado;
 		this.dataMatricula  = dataMatricula;
 	}
 
-	public String getPlanoContratado() {
+	public Plano getPlanoContratado() {
 		return planoContratado;
 	}
 
@@ -42,6 +41,7 @@ public class Aluno extends Pessoa{
 	
 	public static void cadastraAluno() {
 		Scanner scanner = new Scanner(System.in);
+		
 		
 		System.out.println("Digite o nome do Aluno: ");
 		String nomeAluno = scanner.nextLine();
@@ -68,24 +68,23 @@ public class Aluno extends Pessoa{
 		System.out.println("Digite a senha do Aluno: ");
 		String senha = scanner.nextLine();
 		
-		String plano = "";
 		boolean valida;
+		int idPlano;
 		do {
 			valida = true;
-			System.out.println("Digite o Plano do Aluno: ");
-			plano = scanner.nextLine();
-			int planoId = PlanoDAO.getPlanoID(plano);
-			if(planoId == 0){
+			System.out.println("Escolha o plano do Aluno: ");
+			System.out.println(PlanoDAO.exibirPlanos());
+			idPlano = scanner.nextInt();
+			if(idPlano < 1 || idPlano > 4){
 				System.out.println("Plano inexistente!");
 				valida = false;
 			}
 			
 		}while(!valida);
 		LocalDate dataMatricula = LocalDate.now();
-		
-		
+		Plano plano = PlanoDAO.getPlano(idPlano);
 		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula);
-		AlunoDAO.cadastrar(novoAluno, plano);
+		AlunoDAO.cadastrar(novoAluno);
 	}
 }
 

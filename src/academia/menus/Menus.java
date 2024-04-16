@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
 import academia.DAO.AvaliacaoDAO;
@@ -73,7 +72,7 @@ public class Menus {
             	 if(scanner.hasNextInt()) {
             		 opcaoUsuario = scanner.nextInt();
             		 scanner.nextLine();
-            		 if(opcaoUsuario < 1 || opcaoUsuario > 7) {
+            		 if(opcaoUsuario < 1 || opcaoUsuario > 6) {
             			 System.out.println("Opção inválida! Digite uma opção entre 1 e 7");
             			 validador = false;
             		 }
@@ -89,38 +88,29 @@ public class Menus {
                     System.out.println("-----------------------------------");
                     System.out.println("       DADOS DO ALUNO              ");
                     System.out.println("-----------------------------------");
-                   
                     System.out.println(AlunoDAO.exibirDados(cpf));
                     break;
                 case 2:
-                	  System.out.println("-----------------------------------");
-                      System.out.println("      SOLICITAR AGENDAMENTO        ");
-                      System.out.println("-----------------------------------");
-                      
-                   
-                    break;
+                	System.out.println("-----------------------------------");
+                	System.out.println("      SOLICITAR AGENDAMENTO        ");
+                	System.out.println("-----------------------------------");
+                	break;
                 case 3:
-                	 System.out.println("-----------------------------------");
-                     System.out.println("     HISTÓRICO DE AGENDAMENTO      ");
-                     System.out.println("-----------------------------------");
-                     
-                     System.out.println(AgendamentoDAO.hitoricoAgendamentos(cpf));
-                     
-                    break;
+                	System.out.println("-----------------------------------");
+                	System.out.println("     HISTÓRICO DE AGENDAMENTO      ");
+                	System.out.println("-----------------------------------");
+                	System.out.println(AgendamentoDAO.hitoricoAgendamentos(cpf));
+                	break;
                 case 4:
-               	 System.out.println("-----------------------------------");
-                 System.out.println("        CANCELAR AGENDAMENTO       ");
-                 System.out.println("-----------------------------------");
-                 
-                 
+                	System.out.println("-----------------------------------");
+               	 	System.out.println("        CANCELAR AGENDAMENTO       ");
+                 	System.out.println("-----------------------------------");
                     break;
                 case 5:
-               	 System.out.println("-----------------------------------");
-                 System.out.println("     VISUALIZAR AVALIAÇÃO FÍSICA   ");
-                 System.out.println("-----------------------------------");
-                 
-                 System.out.println(AvaliacaoDAO.exibirAvaliacaoAluno(cpf));
-                 
+                	System.out.println("-----------------------------------");
+                	System.out.println("     VISUALIZAR AVALIAÇÃO FÍSICA   ");
+                	System.out.println("-----------------------------------"); 
+                	System.out.println(AvaliacaoDAO.exibirAvaliacaoAluno(cpf));
                     break;                    
                 case 6:
                     break;
@@ -164,23 +154,20 @@ public class Menus {
             	 
              }while(!validador);
              
-            switch (opcaoUsuario) {
+             switch (opcaoUsuario) {
                 case 1:
-                    System.out.println("Visualizar Agenda.\n");
+                	System.out.println("Visualizar Agenda.\n");
                     String agendamento = AgendamentoDAO.hitoricoAgendamentos(cpf);
                     if(agendamento.length() == 0) {
                     	System.out.println("Nenhum agendamento cadastrado!");
                     }
                     System.out.println(agendamento);
-
                     break;
                 case 2:
                     System.out.println("Registrar Avaliação");
-                    
-                   
                     break;
                 case 3:
-                    System.out.println("Cancelar Agendamento.");
+                    System.out.println("Avaliações Realizadas.");
                     break;
                 case 4:
                 	break;
@@ -231,7 +218,7 @@ public class Menus {
 
             switch (opcaoUsuario) {
 	            case 1:
-	                System.out.println("Cadastrar novo Plano\n");
+	            	System.out.println("Cadastrar novo Plano\n");
 	                Plano.cadastraPlano();
 	                System.out.println("Plano cadastrado com sucesso!");
 	                break;
@@ -246,25 +233,25 @@ public class Menus {
 	                System.out.println("Personal Trainer cadastrado com sucesso!");
 	                break;
                 case 4:
-                    System.out.println("-----------------------------------");
+                	System.out.println("-----------------------------------");
                     System.out.println("	RELATÓRIO DE PLANOS");
                     System.out.println("-----------------------------------");
                     System.out.println(PlanoDAO.exibirPlanos());
                     break;
                 case 5:
-                	 System.out.println("-----------------------------------");
-                     System.out.println("	RELATÓRIO DE ALUNOS");
-                     System.out.println("-----------------------------------");
-                     System.out.println(AlunoDAO.exibirAlunos());
+                	System.out.println("-----------------------------------");
+                	System.out.println("	RELATÓRIO DE ALUNOS");
+                	System.out.println("-----------------------------------");
+                	System.out.println(AlunoDAO.exibirAlunos());
                     break;
                 case 6:
-                	 System.out.println("-----------------------------------");
-                     System.out.println("	RELATÓRIO DE EQUIPE");
-                     System.out.println("-----------------------------------");
-                     System.out.println("FUNCIONÁRIOS: ");
-                     System.out.println(FuncionarioDAO.exibeFuncionarios());
-                     System.out.println("PERSONAL TRAINERS: ");
-                     System.out.println(PersonalTrainerDAO.exibePersonalTrainers());
+                	System.out.println("-----------------------------------");
+                	System.out.println("	RELATÓRIO DE EQUIPE");
+                	System.out.println("-----------------------------------");
+                	System.out.println("FUNCIONÁRIOS: ");
+                	System.out.println(FuncionarioDAO.exibeFuncionarios());
+                	System.out.println("PERSONAL TRAINERS: ");
+                	System.out.println(PersonalTrainerDAO.exibePersonalTrainers());
                     break;   
                 case 7:
                     System.out.println("Relatorio de Avaliacoes por periodo");

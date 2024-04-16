@@ -24,7 +24,6 @@ public class AgendamentoDAO {
 			ps.setInt(2, PersonalTrainerDAO.getPersonalID(personal));
 			ps.setDate(3, Date.valueOf(data));
 			ps.setTime(4, Time.valueOf(hora));
-			
 			ps.executeUpdate();
 			ps.close();
 			}catch (SQLException e) {

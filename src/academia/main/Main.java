@@ -1,25 +1,19 @@
 package academia.main;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import academia.DAO.AlunoDAO;
-import academia.classes.Aluno;
 import academia.menus.Inicio;
 import academia.menus.Menus;
 
 public class Main {
 
 	public static void main(String[] args) {
-		
-					
 		List<String> login = new ArrayList<>();
 		
 		int inicio = Inicio.menu();
-		while(true) {
+		while(inicio != 2) {
 			login.clear();
-			login.addAll(Menus.login());
+			login.addAll(Menus.login());	
 			switch(inicio) {
 				case 1:
 					if(login.get(0).equalsIgnoreCase("aluno")) {
@@ -37,10 +31,7 @@ public class Main {
 				case 2:
 					break;
 			}
-			if(inicio == 2) {
-				System.out.println("Programa Encerrado.");
-				break;
-			}	
 		}
+		System.out.println("Programa Encerrado!");
 	}
 }
