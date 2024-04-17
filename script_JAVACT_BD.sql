@@ -60,3 +60,11 @@ create table agendamento(
 	foreign key (aluno_id) references aluno(id),
 	foreign key (personal_id) references personalTrainer(id)
 );
+
+
+INSERT INTO pessoa (nome, cpf, dataNascimento, contato, senha, tipo)
+VALUES ('João Marcelo', '12345678915', '1990-10-10','219887-8989' ,'123456', 'Funcionario');
+INSERT INTO funcionario (id, cargo)
+VALUES (currval('pessoa_id_seq'), 'Gerente');
+
+

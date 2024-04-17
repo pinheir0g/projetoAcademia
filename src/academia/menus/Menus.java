@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
 import academia.DAO.AvaliacaoDAO;

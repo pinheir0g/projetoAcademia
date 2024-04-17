@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
 import academia.classes.Aluno;
 import academia.classes.PersonalTrainer;
 import academia.db.Conexao;
