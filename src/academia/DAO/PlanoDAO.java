@@ -30,7 +30,7 @@ public class PlanoDAO {
 		}
 	}
 	
-	public static List<Plano> exibirPlanos() {
+	public static List<Plano> exibirPlanos(){
 		String sql = "SELECT nome, duracao, valor, descricao FROM plano";
 		List<Plano> planos = new ArrayList<>();
 		Plano plano = null;

@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import academia.classes.Funcionario;
 import academia.db.Conexao;
@@ -45,32 +47,30 @@ public class FuncionarioDAO {
 		}
 	}
 
-	public static String exibeFuncionarios() {
-		String sql = "SELECT p.nome, p.dataNascimento, p.contato, f.cargo "
+	public static List<Funcionario> exibeFuncionarios() {
+		String sql = "SELECT p.nome, p.cpf, p.dataNascimento, p.contato, p.senha, f.cargo "
 				+ "FROM Pessoa p "
-				+ "INNER JOIN Funcionario f ON p.id = f.id ";
-		StringBuilder dados = new StringBuilder();
+				+ "INNER JOIN Funcionario f ON p.id = f.id";
+		List<Funcionario> funcionarios = new ArrayList<>();
+		Funcionario funcionario = null;
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
 			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					String nome = rs.getString("nome");
-					String dataNascimento = rs.getString("dataNascimento");
+					Date dataNascimento = rs.getDate("dataNascimento");
+					String cpf = rs.getString("cpf");
 					String contato = rs.getString("contato");
+					String senha = rs.getString("senha");
 					String cargo = rs.getString("cargo");
-					dados.append(String.format("""
-							
-					Nome: %s
-					Data de Nascimento: %s
-					Contato: %s
-					Cargo: %s
-					---------------------------------
-					""", nome, dataNascimento, contato, cargo));
+					
+					funcionario = new Funcionario(nome, cpf, dataNascimento.toLocalDate(), contato, senha, cargo);
+					funcionarios.add(funcionario);
 				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dados.toString();
+		return funcionarios;
 	}
 }

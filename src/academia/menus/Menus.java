@@ -1,8 +1,10 @@
 package academia.menus;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
 import academia.DAO.AvaliacaoDAO;
@@ -13,6 +15,7 @@ import academia.DAO.ValidacaoDAO;
 import academia.classes.Agendamento;
 import academia.classes.Aluno;
 import academia.classes.Avaliacao;
+import academia.classes.Funcionario;
 import academia.classes.PersonalTrainer;
 import academia.classes.Plano;
 import academia.services.ValidacaoPlano;
@@ -81,15 +84,14 @@ public class Menus {
             		 System.out.println("Opção inválida! Digite apenas números inteiros.");
             		 scanner.nextLine();
             	 }
-            	 
              }while(!validador);
 
              switch (opcaoUsuario) {
                 case 1:
-                    System.out.println("-----------------------------------");
-                    System.out.println("       DADOS DO ALUNO              ");
-                    System.out.println("-----------------------------------");
-                    System.out.println(AlunoDAO.exibirDados(cpf));
+                    System.out.println("---------------------------------------");
+                    System.out.println("           DADOS DO ALUNO              ");
+                    System.out.println("---------------------------------------");
+                    System.out.println(AlunoDAO.getAluno(cpf));
                     break;
                 case 2:
                 	System.out.println("-----------------------------------");
@@ -104,7 +106,6 @@ public class Menus {
                 	for(Agendamento agendamentos : AgendamentoDAO.hitoricoAgendamentos(cpf)) {
                 		System.out.println(agendamentos);
                 	}
-                	
                 	break;
                 case 4:
                 	System.out.println("-----------------------------------");
@@ -116,16 +117,14 @@ public class Menus {
                 	System.out.println("-----------------------------------");
                 	System.out.println("     VISUALIZAR AVALIAÇÃO FÍSICA   ");
                 	System.out.println("-----------------------------------"); 
-                	System.out.println(AvaliacaoDAO.exibirAvaliacaoAluno(cpf));
+                	System.out.println(AvaliacaoDAO.exibirAvaliacao(cpf));
                     break;                    
                 case 6:
                     break;
              }
              if(opcaoUsuario == 6) break;
-         }
-         
+         }     
     }
-	
 	
 	public static void menuPersonal() {
 		Scanner scanner = new Scanner(System.in);
@@ -178,7 +177,10 @@ public class Menus {
                     System.out.println("Avaliação registrada com Sucesso!");
                     break;
                 case 3:
-                    System.out.println("Avaliações Realizadas.");
+                	System.out.println("---------------------------------------");
+                	System.out.println("     VISUALIZAR AVALIAÇÕES FÍSICAS  ");
+                	System.out.println("---------------------------------------"); 
+                	System.out.println(AvaliacaoDAO.exibirAvaliacao(cpf));
                     break;
                 case 4:
                 	break;
@@ -187,7 +189,7 @@ public class Menus {
         }
     }
 	
-	public static void menuFuncionario() {
+	public static void menuFuncionario() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         boolean validador;
         int opcaoUsuario = 0;
@@ -246,29 +248,36 @@ public class Menus {
 	                System.out.println("Personal Trainer cadastrado com sucesso!");
 	                break;
                 case 4:
-                	System.out.println("-----------------------------------");
-                    System.out.println("	RELATÓRIO DE PLANOS");
-                    System.out.println("-----------------------------------");
+                	System.out.println("---------------------------------------");
+                    System.out.println("	  RELATÓRIO DE PLANOS");
+                    System.out.println("---------------------------------------");
                     for(Plano plano : PlanoDAO.exibirPlanos()) {
                     	System.out.println(plano);
-                    	System.out.println("--------------------------------");
+                    	
                     }
                     break;
                 case 5:
                 	System.out.println("-----------------------------------");
                 	System.out.println("	RELATÓRIO DE ALUNOS");
                 	System.out.println("-----------------------------------");
-                	System.out.println(AlunoDAO.exibirAlunos());
+                	for(Aluno aluno: AlunoDAO.exibirAlunos()) {
+                		System.out.println(aluno);
+                	}
                     break;
                 case 6:
                 	System.out.println("-----------------------------------");
                 	System.out.println("	RELATÓRIO DE EQUIPE");
                 	System.out.println("-----------------------------------");
                 	System.out.println("FUNCIONÁRIOS: ");
-                	System.out.println(FuncionarioDAO.exibeFuncionarios());
+                	for(Funcionario funcionario: FuncionarioDAO.exibeFuncionarios()) {
+                		System.out.println(funcionario);
+                	}
+                	
                 	System.out.println("PERSONAL TRAINERS: ");
-                	System.out.println(PersonalTrainerDAO.exibePersonalTrainers());
-                    break;   
+                	for(PersonalTrainer personal: PersonalTrainerDAO.exibePersonalTrainers()) {
+                		System.out.println(personal);
+                	}
+                    break;
                 case 7:
                     System.out.println("Relatorio de Avaliacoes por periodo");
                     System.out.println("--------------------------------------");

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import academia.classes.Aluno;
 import academia.classes.Plano;
@@ -66,7 +68,7 @@ public class AlunoDAO {
 			if(rs.next()) {
 				alunoID = rs.getInt("id");
 			}else {
-				System.out.println("Aluno não encontrado para o CPF: " + aluno.getCpf());
+				System.out.println("Aluno não encontrado!");
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -74,14 +76,14 @@ public class AlunoDAO {
 		return alunoID;
 	}
 	
-	public static String exibirDados(String cpf) {
-
-		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, pl.nome as nome_plano "
+	public static Aluno exibirDados(String cpf) {
+		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, a.datamatricula, pl.id "
 				+ "FROM Pessoa p "
 				+ "JOIN Aluno a ON p.id = a.id "
 				+ "JOIN Plano pl ON a.plano_id = pl.id "
 				+ "WHERE cpf = ?";
-		StringBuilder dados = new StringBuilder();
+		Aluno aluno = null;
+		Plano plano = null;
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
 			ps.setString(1, cpf);
@@ -89,61 +91,54 @@ public class AlunoDAO {
 			try (ResultSet rs = ps.executeQuery()) {
 				if(rs.next()) {
 					String nome = rs.getString("nome_aluno");
-					String cpfAluno = rs.getString("cpf");
-					String dataNascimento = rs.getString("dataNascimento");
+					Date dataNascimento = rs.getDate("dataNascimento");
 					String contato = rs.getString("contato");
-					String plano = rs.getString("nome_plano");
-					dados.append(String.format("""
-					Nome: %s
-					CPF: %s
-					Data de Nascimento: %s
-					Contato: %s
-					Plano: %s 
+					String senha = rs.getString("senha");
+					Date dataMatricula = rs.getDate("datamatricula");
+					int planoId = rs.getInt("id");
 					
-					""", nome, cpfAluno, dataNascimento, contato, plano));
+					plano = PlanoDAO.getPlano(planoId);
+					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate());
 				}
 			}
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dados.toString();
+		return aluno;
 	}
 	
-	public static String exibirAlunos() {
+	public static List<Aluno> exibirAlunos() {
 
-		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, pl.nome as nome_plano "
+		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, a.datamatricula, pl.id "
 				+ "FROM Pessoa p "
 				+ "INNER JOIN Aluno a ON p.id = a.id "
-				+ "INNER JOIN Plano pl ON a.plano_id = pl.id ";
-		StringBuilder dados = new StringBuilder();
+				+ "INNER JOIN Plano pl ON a.plano_id = pl.id";
+		List<Aluno> alunos = new ArrayList<>();
+		Aluno aluno = null;
+		Plano plano = null;
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
-			
 			
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
 					String nome = rs.getString("nome_aluno");
 					String cpf = rs.getString("cpf");
-					String dataNascimento = rs.getString("dataNascimento");
+					Date dataNascimento = rs.getDate("dataNascimento");
 					String contato = rs.getString("contato");
-					String plano = rs.getString("nome_plano");
-					dados.append(String.format("""
-							
-					Nome: %s
-					CPF: %s
-					Data de Nascimento: %s
-					Contato: %s
-					Plano: %s
-					------------------------------------
-					""", nome, cpf, dataNascimento, contato, plano));
+					String senha = rs.getString("senha");
+					Date dataMatricula = rs.getDate("datamatricula");
+					int planoId = rs.getInt("id");
+					
+					plano = PlanoDAO.getPlano(planoId);
+					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate());
+					alunos.add(aluno);
 				}
 			}
-			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dados.toString();
+		return alunos;
 	}
 	
 	public static Aluno getAluno(String cpf) {
@@ -151,7 +146,7 @@ public class AlunoDAO {
 		Aluno aluno = null;
 		Plano plano = null;
 		
-		String sql = "select nome, cpf, datanascimento, contato, senha, a.plano_id, a.datamatricula  "
+		String sql = "select nome, cpf, datanascimento, contato, senha, a.plano_id, a.dataMatricula  "
 				+ "from aluno a  "
 				+ "join pessoa p on a.id = p.id "
 				+ "where p.cpf = ?";
@@ -167,7 +162,7 @@ public class AlunoDAO {
 				String contato = rs.getString("contato");
 				String senha = rs.getString("senha");
 				int planoId = rs.getInt("plano_id");
-				String dataM = rs.getString("datamatricula");
+				String dataM = rs.getString("dataMatricula");
 				
 				LocalDate dataNascimento = LocalDate.parse(data);
 				LocalDate dataMatricula = LocalDate.parse(dataM);
@@ -178,6 +173,6 @@ public class AlunoDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-	return aluno;
+		return aluno;
 	}
 }

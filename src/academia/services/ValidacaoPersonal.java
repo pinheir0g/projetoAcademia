@@ -19,7 +19,7 @@ public class ValidacaoPersonal {
 			try {
 				horarioAtendimento = LocalTime.parse(horario, tf);
 			}catch(Exception e) {
-				System.out.println("Formato de horario inválido. Use o formato dd/MM/yyyy.");
+				System.out.println("Formato de horario inválido. Use o formato (HH:mm).");
 			}
 		}while(horarioAtendimento == null);
 		

@@ -45,13 +45,8 @@ public class Plano {
 		Scanner scanner = new Scanner(System.in);
 		boolean verificaPlano;
 		
-		String nomePlano;
-        do {
-        	System.out.println("Digite o nome do Plano: ");
-            nomePlano = scanner.nextLine();
-        	verificaPlano = ValidacaoPlano.validaNomePlano(nomePlano);
-        }while(!verificaPlano);
-        System.out.println("Digite a duração do Plano (Mensal / Trimestral /Semestral /Anual): ");
+		String nomePlano = ValidacaoPlano.validaNomePlano();
+        System.out.println("Digite a duração do Plano (Mensal/ Trimestral/ Semestral/ Anual): ");
         String duracao = scanner.nextLine();
         System.out.println("Digite o valor do Plano: ");
         double valor = scanner.nextDouble();
@@ -66,12 +61,11 @@ public class Plano {
 	@Override
 	public String toString() {
 		return String.format("""
-				Nome:%s
+				Nome: %s
 				Duração: %s
 				Valor: R$ %s
 				Descricao: %s
+				---------------------------------------
 				""", nome, duracao, valor, descricao);
 	}
-	
-	
 }

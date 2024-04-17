@@ -1,12 +1,13 @@
 package academia.classes;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 import academia.DAO.AlunoDAO;
 import academia.DAO.AvaliacaoDAO;
 import academia.DAO.PersonalTrainerDAO;
-import academia.services.ValidacaoPessoa;
+import academia.services.ValidacaoAvaliacao;
 
 public class Avaliacao {
 	private Aluno aluno;
@@ -57,23 +58,22 @@ public class Avaliacao {
 		PersonalTrainer personal = PersonalTrainerDAO.getDadosPersonal(cpfPersonal);
 		Aluno aluno = AlunoDAO.getAluno(cpfAluno);
 		
-		LocalDate dataAvaliacao = ValidacaoPessoa.validaDataAvaliacao();
+		LocalDate dataAvaliacao = ValidacaoAvaliacao.validaDataAvaliacao();
 		System.out.println("Digite a descrição da Avaliação: ");
 		String descricao = scanner.nextLine();
 		
 		AvaliacaoDAO.cadastrarAvaliacao(personal, aluno, dataAvaliacao, descricao);
 	}
 	
-	public static String exibirAvaliacoes() {
+	public static String exibirAvaliacoes() throws SQLException {
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Digite o inicio do periodo: ");
-		int dataInicio = sc.nextInt();
-    	System.out.println("Digite o fim do periodo: ");
-    	int dataFim = sc.nextInt();
+		int dataInicio = ValidacaoAvaliacao.validaPeriodoAvaliacao("Digite o mês de inicio do periodo: (1-12)");
+    	int dataFim = ValidacaoAvaliacao.validaPeriodoAvaliacao("Digite o mês de fim do periodo: (1-12)");
+    	
+    	System.out.println("Avaliações dos Meses entre: " + dataInicio + " e " + dataFim);
 		return AvaliacaoDAO.exibirAvaliacaoPeriodo(dataInicio, dataFim);
 	}
-	
 	@Override
 	public String toString() {
 		return "Nome do aluno: " + aluno + "\nData da Avaliação: " + dataAvaliacao + "\nPersonal Trainer: " + personalTrainer

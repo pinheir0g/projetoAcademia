@@ -90,21 +90,4 @@ public class ValidacaoPessoa {
 		
 		return dataNascimento;
 	}
-	
-	public static LocalDate validaDataAvaliacao() {
-		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dataNascimento = null;
-		do {
-			dataNascimento = null;
-			System.out.println("Digite a Data de Avaliacao: (no formato dd/MM/yyyy)");
-			String data = scanner.nextLine();
-			try {
-				dataNascimento = LocalDate.parse(data, df);
-			}catch(Exception e) {
-				System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
-			}
-		}while(dataNascimento == null);
-		
-		return dataNascimento;
-	}
 }

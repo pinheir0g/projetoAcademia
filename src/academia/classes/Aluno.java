@@ -2,7 +2,6 @@ package academia.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +10,7 @@ import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
 import academia.DAO.PersonalTrainerDAO;
 import academia.DAO.PlanoDAO;
+import academia.services.ValidacaoAgendamento;
 import academia.services.ValidacaoPessoa;
 
 public class Aluno extends Pessoa{
@@ -39,30 +39,27 @@ public class Aluno extends Pessoa{
 	public static void soliciarAgendamento(String cpf) {
 		Scanner sc = new Scanner(System.in);
 		Aluno aluno = null;
-		PersonalTrainer personal = null;
+		PersonalTrainer novoPersonal = null;
 		int id = 0;
-		boolean continua = true;
-		System.out.println(PersonalTrainerDAO.exibePersonalTrainers());
-		System.out.println("Com qual Personal Trainer deseja agendar? ");
+		boolean continua;
+		for(PersonalTrainer personal: PersonalTrainerDAO.exibePersonalTrainers()) {
+    		int idPersonal = PersonalTrainerDAO.getPersonalID(personal);
+    		System.out.println("ID: " + idPersonal + "\n" + personal);
+    	}
+		
+		System.out.println("Digite o ID do Personal Trainer deseja agendar? \n");
 		do {
 			continua = true;
 			if(sc.hasNextInt()) { 
 				id = sc.nextInt();
 				continua = false;
 				aluno = AlunoDAO.getAluno(cpf);
-				personal = PersonalTrainerDAO.getPersonal(id);
-				System.out.println("Digite a data do agendamento: ");
-				sc.nextLine();
-				String data = sc.nextLine();
-				System.out.println("Digite o horario do agendamento: ");
-				String horario = sc.nextLine();
+				novoPersonal = PersonalTrainerDAO.getPersonalByID(id);
 				
-				LocalDate dataAgendada = LocalDate.parse(data);
-				LocalTime horarioAgendado = LocalTime.parse(horario);
+				LocalDate dataAgendamento = ValidacaoAgendamento.validaDataAgendamento();
+				LocalTime horarioAgendamento = ValidacaoAgendamento.validaHorario();
 				
-				AgendamentoDAO.solicitarAgendamento(personal, aluno, dataAgendada, horarioAgendado);
-				
-				
+				AgendamentoDAO.solicitarAgendamento(novoPersonal, aluno, dataAgendamento, horarioAgendamento, "Aberto");
 			} else {
 				sc.nextLine();
 			}
@@ -72,11 +69,20 @@ public class Aluno extends Pessoa{
 	public static void cancelarAgendamento(String cpf) {
 		boolean continua;
 		int id = 0;
+		int cont = 0;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Realmente deseja excluir um agendamento? S/N ");
 		String escolha = sc.nextLine();
 		if(escolha.equalsIgnoreCase("S")) {
-			System.out.println(AgendamentoDAO.hitoricoAgendamentos(cpf));
+			for(Agendamento agendamento: AgendamentoDAO.hitoricoAgendamentos(cpf)) {
+				List<Integer> ids = AgendamentoDAO.getAgendamentoID(agendamento);
+				for (Integer inteiro : ids) {
+					System.out.println("ID: " + inteiro + "\n" + agendamento);
+					cont++;
+				}
+				if(cont == ids.size()) break;
+				System.out.println(ids.size());
+			}
 			do {
 				continua = true;
 				System.out.println("Digite o ID do agendamento que você quer cancelar: ");
@@ -128,5 +134,15 @@ public class Aluno extends Pessoa{
 		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula);
 		AlunoDAO.cadastrar(novoAluno);
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + String.format("""
+                Plano: %s
+                Data de Matricula: %s
+                ---------------------------------------
+                """, planoContratado.getNome(), dataMatricula);
+	}
+	
 }
 

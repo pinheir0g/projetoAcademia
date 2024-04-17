@@ -70,7 +70,6 @@ public class PersonalTrainer extends Pessoa {
 		String especialidade = scanner.nextLine();
 		
 		String cref = ValidacaoPersonal.validaCref();
-		
 		LocalTime horarioAtendimento = ValidacaoPersonal.validaHorario();
 		
 		PersonalTrainer novoPersonal = new PersonalTrainer(nomePersonal, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento);
@@ -83,7 +82,7 @@ public class PersonalTrainer extends Pessoa {
 				Especialidade: %s
 				CREF: %s
 				Horário de Atendiamento: %s
+				---------------------------------
 				""", especialidade, cref, horarioAtendimento);
 	}	
-	
 }

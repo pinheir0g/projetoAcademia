@@ -31,14 +31,14 @@ public class AvaliacaoDAO {
 		}
 	}
 	
-	public static String exibirAvaliacaoAluno(String cpf) {
+	public static String exibirAvaliacao(String cpf) {
 		String sql = "select pA.nome as Aluno, ppT.nome as Personal, descricao , to_char(data, 'dd/MM/yyyy') as periodo " 
 				+ "from avaliacao av "
 				+ "join personaltrainer pt on av.personal_id = pt.id "
 				+ "join aluno a on av.aluno_id = a.id "
 				+ "join pessoa pA on pA.id = a.id "
 				+ "join pessoa ppT on ppT.id = pt.id "
-				+ "where  pA.cpf = ? "
+				+ "where pA.cpf = ? or ppt.cpf = ? "
 				+ "order by data";
 		
 		StringBuilder dadosAvaliacao = new StringBuilder();
@@ -46,6 +46,7 @@ public class AvaliacaoDAO {
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
 			ps.setString(1, cpf);
+			ps.setString(2, cpf);
 			
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
@@ -60,7 +61,7 @@ public class AvaliacaoDAO {
 					Personal: %s
 					Descricao: %s
 					Data: %s
-					-----------------------
+					------------------------------------
 					""", aluno, personal, descricao, periodo));
 				}
 			}
@@ -68,9 +69,7 @@ public class AvaliacaoDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return dadosAvaliacao.toString();
-		
+		return dadosAvaliacao.toString();		
 	}
 	
 	public static String exibirAvaliacaoPeriodo(int dataInicio, int dataFim) {
@@ -103,6 +102,7 @@ public class AvaliacaoDAO {
 					Personal: %s
 					Descricao: %s
 					Data: %s
+					------------------------------------
 					""", aluno, personal, descricao, periodo));
 				}
 			}
@@ -110,7 +110,6 @@ public class AvaliacaoDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return dados.toString();
 	}
 
