@@ -60,6 +60,7 @@ public class Aluno extends Pessoa{
 				LocalTime horarioAgendamento = ValidacaoAgendamento.validaHorario();
 				
 				AgendamentoDAO.solicitarAgendamento(novoPersonal, aluno, dataAgendamento, horarioAgendamento, "Aberto");
+				System.out.println("Agendamento solicitado com Sucesso!");
 			} else {
 				sc.nextLine();
 			}
@@ -95,6 +96,7 @@ public class Aluno extends Pessoa{
 			} while(continua == true);
 			
 			AgendamentoDAO.cancelarAgendamento(id);
+			System.out.println("Agendamento cancelado com Sucesso!");
 		} 
 	}	
 	

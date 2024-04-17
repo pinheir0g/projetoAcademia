@@ -14,6 +14,7 @@ import academia.DAO.PlanoDAO;
 import academia.DAO.ValidacaoDAO;
 import academia.classes.Agendamento;
 import academia.classes.Aluno;
+import academia.classes.ArquivoTxt;
 import academia.classes.Avaliacao;
 import academia.classes.Funcionario;
 import academia.classes.PersonalTrainer;
@@ -263,17 +264,22 @@ public class Menus {
                 	for(Aluno aluno: AlunoDAO.exibirAlunos()) {
                 		System.out.println(aluno);
                 	}
+                	System.out.println("Deseja gravar as informações em um arquivo? (S/N)");
+                	String opcao = scanner.nextLine();
+                	if(opcao.equalsIgnoreCase("s")) {
+                		ArquivoTxt.listaAlunoTxt();
+                	}
                     break;
                 case 6:
                 	System.out.println("-----------------------------------");
                 	System.out.println("	RELATÓRIO DE EQUIPE");
                 	System.out.println("-----------------------------------");
-                	System.out.println("FUNCIONÁRIOS: ");
+                	System.out.println("FUNCIONÁRIOS: \n");
                 	for(Funcionario funcionario: FuncionarioDAO.exibeFuncionarios()) {
                 		System.out.println(funcionario);
                 	}
                 	
-                	System.out.println("PERSONAL TRAINERS: ");
+                	System.out.println("PERSONAL TRAINERS: \n");
                 	for(PersonalTrainer personal: PersonalTrainerDAO.exibePersonalTrainers()) {
                 		System.out.println(personal);
                 	}

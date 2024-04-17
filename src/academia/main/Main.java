@@ -1,12 +1,8 @@
 package academia.main;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import academia.DAO.FuncionarioDAO;
-import academia.classes.Funcionario;
 import academia.menus.Inicio;
 import academia.menus.Menus;
 
