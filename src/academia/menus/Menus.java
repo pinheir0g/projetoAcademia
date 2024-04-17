@@ -10,6 +10,7 @@ import academia.DAO.FuncionarioDAO;
 import academia.DAO.PersonalTrainerDAO;
 import academia.DAO.PlanoDAO;
 import academia.DAO.ValidacaoDAO;
+import academia.classes.Agendamento;
 import academia.classes.Aluno;
 import academia.classes.Avaliacao;
 import academia.classes.PersonalTrainer;
@@ -73,7 +74,7 @@ public class Menus {
             		 opcaoUsuario = scanner.nextInt();
             		 scanner.nextLine();
             		 if(opcaoUsuario < 1 || opcaoUsuario > 6) {
-            			 System.out.println("Opção inválida! Digite uma opção entre 1 e 7");
+            			 System.out.println("Opção inválida! Digite uma opção entre 1 e 6");
             			 validador = false;
             		 }
             	 }else {
@@ -100,7 +101,10 @@ public class Menus {
                 	System.out.println("-----------------------------------");
                 	System.out.println("     HISTÓRICO DE AGENDAMENTO      ");
                 	System.out.println("-----------------------------------");
-                	System.out.println(AgendamentoDAO.hitoricoAgendamentos(cpf));
+                	for(Agendamento agendamentos : AgendamentoDAO.hitoricoAgendamentos(cpf)) {
+                		System.out.println(agendamentos);
+                	}
+                	
                 	break;
                 case 4:
                 	System.out.println("-----------------------------------");
@@ -160,11 +164,13 @@ public class Menus {
              switch (opcaoUsuario) {
                 case 1:
                 	System.out.println("Visualizar Agenda.\n");
-                    String agendamento = AgendamentoDAO.hitoricoAgendamentos(cpf);
-                    if(agendamento.length() == 0) {
-                    	System.out.println("Nenhum agendamento cadastrado!");
-                    }
-                    System.out.println(agendamento);
+                	if(AgendamentoDAO.hitoricoAgendamentos(cpf).size() == 0) {
+                		System.out.println("Nenhum agendamento cadastrado!");
+                		break;
+                	}
+                	 for(Agendamento agendamentos : AgendamentoDAO.hitoricoAgendamentos(cpf)) {
+                		System.out.println(agendamentos);
+                	}
                     break;
                 case 2:
                     System.out.println("Registrar Avaliação");

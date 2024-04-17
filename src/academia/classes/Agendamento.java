@@ -44,7 +44,13 @@ public class Agendamento {
 
 	@Override
 	public String toString() {
-		return "Data do Agendamento: " + dataAgendamento + "\nHora Agendada: " + horaAgendamento + " min" + "\nNome do aluno: " + aluno + "\nNome do Personal: " + personalTrainer;
+		return String.format("""
+				Data do Agendamento: %s
+				Hora Agendada: %s
+				Nome do Aluno: %s
+				Nome do Personal: %s
+				-----------------------------------
+				""", dataAgendamento, horaAgendamento, aluno.getNome(), personalTrainer.getNome());
 	}
 	
 		

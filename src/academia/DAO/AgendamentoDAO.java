@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import academia.classes.Agendamento;
 import academia.classes.Aluno;
 import academia.classes.PersonalTrainer;
 import academia.db.Conexao;
@@ -32,38 +35,43 @@ public class AgendamentoDAO {
 		}
 	}
 	
-	public static String hitoricoAgendamentos(String cpf) {
-		String sql = "SELECT p.nome as nome_aluno, pa.nome as nome_personal, ag.data, ag.horario, ag.id "
+	public static List<Agendamento> hitoricoAgendamentos(String cpf) {
+		String sql = "SELECT p.nome as nome_aluno, p.cpf as cpf_aluno, pa.nome as nome_personal, ag.data, ag.horario, pt.id "
 				+ "from Agendamento ag "
 				+ "JOIN Aluno a ON ag.aluno_id = a.id "
 				+ "JOIN Pessoa p ON a.id = p.id "
 				+ "JOIN PersonalTrainer pt ON ag.personal_id = pt.id "
 				+ "JOIN Pessoa pa ON pt.id = pa.id "
-				+ "WHERE p.cpf = ?";
-		StringBuilder dados = new StringBuilder();
+				+ "WHERE pa.cpf = ? or p.cpf = ?";
+		
+		List<Agendamento> listaAgendamentos = new ArrayList<>();
+		Agendamento agendamentos = null;
+		Aluno aluno = null;
+		PersonalTrainer personal = null;
+		
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
 			ps.setString(1, cpf);
+			ps.setString(2, cpf);
 			try (ResultSet rs = ps.executeQuery()){
 				while(rs.next()) {
-					String nomeAluno = rs.getString("nome_aluno");
-					String nomePersonal = rs.getString("nome_personal");
-					String data = rs.getString("data");
-					String horario = rs.getString("horario");
-					String id = rs.getString("id");
-					dados.append(String.format( """
-							Aluno: %s
-							Personal Trainer: %s
-							Data: %s
-							Horario: %s
-							ID: %s
-							""", nomeAluno, nomePersonal, data, horario, id));
+					String cpfAluno = rs.getString("cpf_aluno");
+					Date data = rs.getDate("data");
+					Time horario = rs.getTime("horario");
+					int idPersonal = rs.getInt("id");
+					
+					
+					aluno = AlunoDAO.getAluno(cpfAluno);
+					personal = PersonalTrainerDAO.getPersonal(idPersonal);
+					agendamentos = new Agendamento(data.toLocalDate(), horario.toLocalTime(), aluno, personal);
+					listaAgendamentos.add(agendamentos);
+					
 				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dados.toString();
+		return listaAgendamentos;
 	}
 	
 	public static void cancelarAgendamento(int id) {
