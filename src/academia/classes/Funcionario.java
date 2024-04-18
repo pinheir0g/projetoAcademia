@@ -6,8 +6,8 @@ import java.time.LocalDate;
 public class Funcionario extends Pessoa{
 	private String cargo;
 	
-	public Funcionario(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, String cargo) {
-		super(nome, cpf, dataNascimento, contato, senha);
+	public Funcionario(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, String cargo, String tipo) {
+		super(nome, cpf, dataNascimento, contato, senha, tipo);
 		this.cargo = cargo;
 	}
 

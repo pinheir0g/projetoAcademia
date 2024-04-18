@@ -1,8 +1,5 @@
 package academia.menus;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import academia.DAO.AgendamentoDAO;
 import academia.DAO.AlunoDAO;
@@ -17,16 +14,16 @@ import academia.classes.ArquivoTxt;
 import academia.classes.Avaliacao;
 import academia.classes.Funcionario;
 import academia.classes.PersonalTrainer;
+import academia.classes.Pessoa;
 import academia.classes.Plano;
 import academia.services.ValidacaoPlano;
 
 public class Menus {
 	private static String cpf = "";
 	
-	public static List<String> login() {
-		List<String> dadosUsuario = new ArrayList<>();
+	public static Pessoa login() {
 		Scanner sc = new Scanner(System.in);
-		
+		Pessoa usuario = null;
 		do {
 			System.out.println("Digite seu CPF: ");
 			cpf = sc.nextLine();
@@ -34,18 +31,15 @@ public class Menus {
 			System.out.println("Digite sua senha: ");
 			String senha = sc.nextLine();
 			
-			dadosUsuario = ValidacaoDAO.conectaUsuario(cpf, senha);
-			
+			usuario = ValidacaoDAO.conectaUsuario(cpf, senha);
 		
-			if (!dadosUsuario.isEmpty()) {
+			if (usuario != null) {
 				System.out.println("Logado com sucesso!\n");
 			}else {
 				System.out.println("CPF ou senha inválidos!");
 			}
-		
-		}while(dadosUsuario.isEmpty());
-		
-		return dadosUsuario;
+		}while(usuario == null);
+		return usuario;
 	}
 	
 	public static void menuAluno() {
@@ -108,15 +102,15 @@ public class Menus {
                 	}
                 	break;
                 case 4:
-                	System.out.println("-----------------------------------");
-               	 	System.out.println("        CANCELAR AGENDAMENTO       ");
-                 	System.out.println("-----------------------------------");
+                	System.out.println("---------------------------------------");
+               	 	System.out.println("          CANCELAR AGENDAMENTO         ");
+                 	System.out.println("---------------------------------------");
                  	Aluno.cancelarAgendamento(cpf);
                     break;
                 case 5:
-                	System.out.println("-----------------------------------");
-                	System.out.println("     VISUALIZAR AVALIAÇÃO FÍSICA   ");
-                	System.out.println("-----------------------------------"); 
+                	System.out.println("---------------------------------------");
+                	System.out.println("     VISUALIZAR AVALIAÇÃO FÍSICA       ");
+                	System.out.println("---------------------------------------"); 
                 	System.out.println(AvaliacaoDAO.exibirAvaliacao(cpf));
                     break;                    
                 case 6:
@@ -157,7 +151,6 @@ public class Menus {
             		 System.out.println("Opção inválida! Digite apenas números.");
             		 scanner.nextLine();
             	 }
-            	 
              }while(!validador);
              
              switch (opcaoUsuario) {
@@ -189,7 +182,7 @@ public class Menus {
         }
     }
 	
-	public static void menuFuncionario() throws SQLException {
+	public static void menuFuncionario(){
         Scanner scanner = new Scanner(System.in);
         boolean validador;
         int opcaoUsuario = 0;

@@ -9,7 +9,7 @@ public class ValidacaoAvaliacao {
 
 	public static LocalDate validaDataAvaliacao() {
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dataNascimento = null;
+		LocalDate dataNascimento;
 		do {
 			dataNascimento = null;
 			System.out.println("Digite a Data de Avaliacao: (no formato dd/MM/yyyy)");

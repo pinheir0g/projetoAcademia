@@ -1,31 +1,26 @@
 package academia.main;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import academia.classes.Pessoa;
 import academia.menus.Inicio;
 import academia.menus.Menus;
 
 public class Main {
 
-	public static void main(String[] args) throws SQLException {
-		List<String> login = new ArrayList<>();
-		
+	public static void main(String[] args) {
 		
 		int inicio = Inicio.menu();
 		while(inicio != 2) {
-			login.clear();
-			login.addAll(Menus.login());
+			Pessoa usuario = Menus.login();
 			switch(inicio) {
 				case 1:
-					if(login.get(0).equalsIgnoreCase("aluno")) {
-						System.out.println("Bem Vindo " + login.get(1) + "!\n");
+					if(usuario.getTipo().equalsIgnoreCase("aluno")) {
+						System.out.println("Bem Vindo " + usuario.getNome() + "!\n");
 						Menus.menuAluno();
-					}else if (login.get(0).equalsIgnoreCase("funcionario")){
-						System.out.println("Bem Vindo " + login.get(1) + "!\n");
+					}else if (usuario.getTipo().equalsIgnoreCase("funcionario")){
+						System.out.println("Bem Vindo " + usuario.getNome() + "!\n");
 						Menus.menuFuncionario();
 					}else{
-						System.out.println("Bem Vindo " + login.get(1) + "!\n");
+						System.out.println("Bem Vindo " + usuario.getNome() + "!\n");
 						Menus.menuPersonal();
 					}
 					inicio = Inicio.menu();

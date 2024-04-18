@@ -2,6 +2,7 @@ package academia.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Agendamento {
 	private LocalDate dataAgendamento;
@@ -54,6 +55,7 @@ public class Agendamento {
 
 	@Override
 	public String toString() {
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return String.format("""
 				Data do Agendamento: %s
 				Hora Agendada: %s
@@ -61,9 +63,6 @@ public class Agendamento {
 				Nome do Personal: %s
 				Status: %s
 				-----------------------------------
-				""", dataAgendamento, horaAgendamento, aluno.getNome(), personalTrainer.getNome(), status);
+				""", df.format(dataAgendamento), horaAgendamento, aluno.getNome(), personalTrainer.getNome(), status);
 	}
-	
-		
-
 }

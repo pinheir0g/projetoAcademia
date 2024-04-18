@@ -1,7 +1,7 @@
 package academia.classes;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import academia.DAO.AlunoDAO;
@@ -49,13 +49,12 @@ public class Avaliacao {
 	public static void cadastrarAvaliacao() {
 		Scanner scanner = new Scanner(System.in);
 		
-		
 		System.out.println("Digite o seu CPF: ");
 		String cpfPersonal = scanner.nextLine();
 		System.out.println("Digite o CPF do Aluno: ");
 		String cpfAluno = scanner.nextLine();
 		
-		PersonalTrainer personal = PersonalTrainerDAO.getDadosPersonal(cpfPersonal);
+		PersonalTrainer personal = PersonalTrainerDAO.getPersonal(cpfPersonal);
 		Aluno aluno = AlunoDAO.getAluno(cpfAluno);
 		
 		LocalDate dataAvaliacao = ValidacaoAvaliacao.validaDataAvaliacao();
@@ -65,7 +64,7 @@ public class Avaliacao {
 		AvaliacaoDAO.cadastrarAvaliacao(personal, aluno, dataAvaliacao, descricao);
 	}
 	
-	public static String exibirAvaliacoes() throws SQLException {
+	public static String exibirAvaliacoes(){
 		Scanner sc = new Scanner(System.in);
 		
 		int dataInicio = ValidacaoAvaliacao.validaPeriodoAvaliacao("Digite o mês de inicio do periodo: (1-12)");
@@ -76,7 +75,8 @@ public class Avaliacao {
 	}
 	@Override
 	public String toString() {
-		return "Nome do aluno: " + aluno + "\nData da Avaliação: " + dataAvaliacao + "\nPersonal Trainer: " + personalTrainer
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		return "Nome do aluno: " + aluno + "\nData da Avaliação: " + df.format(dataAvaliacao) + "\nPersonal Trainer: " + personalTrainer
 				+ "\nDescrição: " + descricao ;
 	}
 	

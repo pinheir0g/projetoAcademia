@@ -74,7 +74,7 @@ public class PersonalTrainerDAO {
 	}
 	
 	public static List<PersonalTrainer> exibePersonalTrainers() {
-		String sql = "SELECT p.nome, p.cpf, p,dataNascimento, p.contato, pt.especialidade, p.senha, pt.cref, pt.horarioAtendimento, p.id "
+		String sql = "SELECT p.nome, p.cpf, p,dataNascimento, p.contato, pt.especialidade, p.senha, p.tipo, pt.cref, pt.horarioAtendimento, p.id "
 				+ "FROM Pessoa p "
 				+ "JOIN PersonalTrainer pt ON pt.id = p.id";
 		
@@ -91,9 +91,10 @@ public class PersonalTrainerDAO {
 					String especialidade = rs.getString("especialidade");
 					String senha = rs.getString("senha");
 					String cref = rs.getString("cref");
+					String tipo = rs.getString("tipo");
 					Time horario = rs.getTime("horarioatendimento");
 					
-					personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario.toLocalTime());
+					personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario.toLocalTime(), tipo);
 					listaPersonal.add(personal);
 				}
 			}
@@ -107,7 +108,7 @@ public class PersonalTrainerDAO {
 		ResultSet rs;
 		PersonalTrainer personal = null;
 		
-		String sql = "select nome, cpf, datanascimento, contato, senha, pt.especialidade, pt.cref, pt.horarioatendimento "
+		String sql = "select nome, cpf, datanascimento, contato, senha, tipo, pt.especialidade, pt.cref, pt.horarioatendimento "
 				+ "from personaltrainer pt "
 				+ "join pessoa p on pt.id = p.id "
 				+ "where pt.id = ? ";
@@ -126,8 +127,9 @@ public class PersonalTrainerDAO {
 				String especialidade = rs.getString("especialidade");
 				String cref = rs.getString("cref");
 				Time horario = rs.getTime("horarioatendimento");
+				String tipo = rs.getString("tipo");
 				
-				personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario.toLocalTime());
+				personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario.toLocalTime(), tipo);
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -135,8 +137,8 @@ public class PersonalTrainerDAO {
 		return personal;
 	}
 	
-	public static PersonalTrainer getDadosPersonal(String cpf) {
-		String sql = "SELECT p.nome, p.cpf, p,dataNascimento, p.contato, p.senha, pt.especialidade, pt.cref, pt.horarioAtendimento "
+	public static PersonalTrainer getPersonal(String cpf) {
+		String sql = "SELECT p.nome, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, pt.especialidade, pt.cref, pt.horarioAtendimento "
 				+ "FROM Pessoa p "
 				+ "JOIN PersonalTrainer pt ON pt.id = p.id "
 				+ "where p.cpf = ?";
@@ -155,9 +157,10 @@ public class PersonalTrainerDAO {
 				String senha = rs.getString("senha");
 				String especialidade = rs.getString("especialidade");
 				String cref = rs.getString("cref");
+				String tipo = rs.getString("tipo");
 				Time horarioAtendimento = rs.getTime("horarioAtendimento");
 				
-				personal = new PersonalTrainer(nome, cpfPersonal, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horarioAtendimento.toLocalTime());
+				personal = new PersonalTrainer(nome, cpfPersonal, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horarioAtendimento.toLocalTime(), tipo);
 			}else {
 				System.out.println("Personal Trainer não encontrado!");
 			}

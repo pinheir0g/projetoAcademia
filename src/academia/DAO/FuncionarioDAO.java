@@ -48,7 +48,7 @@ public class FuncionarioDAO {
 	}
 
 	public static List<Funcionario> exibeFuncionarios() {
-		String sql = "SELECT p.nome, p.cpf, p.dataNascimento, p.contato, p.senha, f.cargo "
+		String sql = "SELECT p.nome, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, f.cargo "
 				+ "FROM Pessoa p "
 				+ "INNER JOIN Funcionario f ON p.id = f.id";
 		List<Funcionario> funcionarios = new ArrayList<>();
@@ -63,8 +63,9 @@ public class FuncionarioDAO {
 					String contato = rs.getString("contato");
 					String senha = rs.getString("senha");
 					String cargo = rs.getString("cargo");
+					String tipo = rs.getString("tipo");
 					
-					funcionario = new Funcionario(nome, cpf, dataNascimento.toLocalDate(), contato, senha, cargo);
+					funcionario = new Funcionario(nome, cpf, dataNascimento.toLocalDate(), contato, senha, cargo, tipo);
 					funcionarios.add(funcionario);
 				}
 			}
@@ -72,5 +73,33 @@ public class FuncionarioDAO {
 			e.printStackTrace();
 		}
 		return funcionarios;
+	}
+	
+	public static Funcionario getFuncionario(String cpf) {
+		String sql = "SELECT p.nome, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, f.cargo "
+				+ "FROM Pessoa p "
+				+ "INNER JOIN Funcionario f ON p.id = f.id "
+				+ "WHERE cpf = ? ";
+		Funcionario funcionario = null;
+		try {
+			ps = Conexao.conectar().prepareStatement(sql);
+			ps.setString(1, cpf);
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					String nome = rs.getString("nome");
+					Date dataNascimento = rs.getDate("dataNascimento");
+					String contato = rs.getString("contato");
+					String senha = rs.getString("senha");
+					String cargo = rs.getString("cargo");
+					String tipo = rs.getString("tipo");
+					
+					funcionario = new Funcionario(nome, cpf, dataNascimento.toLocalDate(), contato, senha, cargo, tipo);
+				
+				}
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return funcionario;
 	}
 }

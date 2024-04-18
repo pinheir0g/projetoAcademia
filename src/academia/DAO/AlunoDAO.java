@@ -77,7 +77,7 @@ public class AlunoDAO {
 	}
 	
 	public static Aluno exibirDados(String cpf) {
-		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, a.datamatricula, pl.id "
+		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, a.datamatricula, pl.id "
 				+ "FROM Pessoa p "
 				+ "JOIN Aluno a ON p.id = a.id "
 				+ "JOIN Plano pl ON a.plano_id = pl.id "
@@ -95,10 +95,11 @@ public class AlunoDAO {
 					String contato = rs.getString("contato");
 					String senha = rs.getString("senha");
 					Date dataMatricula = rs.getDate("datamatricula");
+					String tipo = rs.getString("tipo");
 					int planoId = rs.getInt("id");
 					
 					plano = PlanoDAO.getPlano(planoId);
-					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate());
+					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate(), tipo);
 				}
 			}
 			
@@ -110,7 +111,7 @@ public class AlunoDAO {
 	
 	public static List<Aluno> exibirAlunos() {
 
-		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, a.datamatricula, pl.id "
+		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, a.datamatricula, pl.id "
 				+ "FROM Pessoa p "
 				+ "INNER JOIN Aluno a ON p.id = a.id "
 				+ "INNER JOIN Plano pl ON a.plano_id = pl.id";
@@ -128,10 +129,11 @@ public class AlunoDAO {
 					String contato = rs.getString("contato");
 					String senha = rs.getString("senha");
 					Date dataMatricula = rs.getDate("datamatricula");
+					String tipo = rs.getString("tipo");
 					int planoId = rs.getInt("id");
 					
 					plano = PlanoDAO.getPlano(planoId);
-					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate());
+					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate(), tipo);
 					alunos.add(aluno);
 				}
 			}
@@ -146,10 +148,10 @@ public class AlunoDAO {
 		Aluno aluno = null;
 		Plano plano = null;
 		
-		String sql = "select nome, cpf, datanascimento, contato, senha, a.plano_id, a.dataMatricula  "
-				+ "from aluno a  "
-				+ "join pessoa p on a.id = p.id "
-				+ "where p.cpf = ?";
+		String sql = "SELECT nome, cpf, dataNascimento, contato, senha, tipo, a.plano_id, a.datamatricula "
+				+ "FROM aluno a  "
+				+ "JOIN pessoa p ON a.id = p.id "
+				+ "WHERE p.cpf = ?";
 		
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
@@ -163,11 +165,12 @@ public class AlunoDAO {
 				String senha = rs.getString("senha");
 				int planoId = rs.getInt("plano_id");
 				String dataM = rs.getString("dataMatricula");
+				String tipo = rs.getString("tipo");
 				
 				LocalDate dataNascimento = LocalDate.parse(data);
 				LocalDate dataMatricula = LocalDate.parse(dataM);
 				plano = PlanoDAO.getPlano(planoId);
-				aluno = new Aluno(nome, cpf, dataNascimento, contato, senha, plano, dataMatricula);
+				aluno = new Aluno(nome, cpf, dataNascimento, contato, senha, plano, dataMatricula, tipo);
 			}
 			
 		}catch(SQLException e) {

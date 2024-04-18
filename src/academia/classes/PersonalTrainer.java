@@ -2,7 +2,6 @@ package academia.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import academia.DAO.PersonalTrainerDAO;
@@ -16,8 +15,8 @@ public class PersonalTrainer extends Pessoa {
 	
 	
 	public PersonalTrainer(String nome, String cpf, LocalDate dataNascimento, String contato, String senha,
-			String especialidade, String cref, LocalTime horarioAtendimento) {
-		super(nome, cpf, dataNascimento, contato, senha);
+			String especialidade, String cref, LocalTime horarioAtendimento, String tipo) {
+		super(nome, cpf, dataNascimento, contato, senha, tipo);
 		this.especialidade = especialidade;
 		this.cref = cref;
 		this.horarioAtendimento = horarioAtendimento;
@@ -39,23 +38,10 @@ public class PersonalTrainer extends Pessoa {
 		return cref;
 	}
 
-	
-	public void vizualizarAgenda() {
-		
-	}
-	
-	public void registrarAvaliacao(Avaliacao avaliacao) {
-		
-	}
-	
-	public void viasualizarAvaliacoesFeitas() {
-	 	
-  }
 	public static void cadastraPersonal() {
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Digite o nome do Personal Trainer: ");
-		String nomePersonal = scanner.nextLine();
+		String nomePersonal = ValidacaoPessoa.validaNome();
 		
 		String cpf = ValidacaoPessoa.validaCpf();
 		LocalDate dataNascimento = ValidacaoPessoa.validaDataNascimento();
@@ -72,7 +58,7 @@ public class PersonalTrainer extends Pessoa {
 		String cref = ValidacaoPersonal.validaCref();
 		LocalTime horarioAtendimento = ValidacaoPersonal.validaHorario();
 		
-		PersonalTrainer novoPersonal = new PersonalTrainer(nomePersonal, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento);
+		PersonalTrainer novoPersonal = new PersonalTrainer(nomePersonal, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento, "Personal Trainer");
 		PersonalTrainerDAO.cadastraPersonal(novoPersonal);
 	}
 		

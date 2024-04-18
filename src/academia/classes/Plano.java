@@ -43,18 +43,17 @@ public class Plano {
 
 	public static void cadastraPlano() {
 		Scanner scanner = new Scanner(System.in);
-		boolean verificaPlano;
-		
 		String nomePlano = ValidacaoPlano.validaNomePlano();
-        System.out.println("Digite a duração do Plano (Mensal/ Trimestral/ Semestral/ Anual): ");
-        String duracao = scanner.nextLine();
+		System.out.println("Digite a duração do Plano (Mensal/ Trimestral/ Semestral/ Anual): ");
+		String duracaoPlano = scanner.nextLine();
+		
         System.out.println("Digite o valor do Plano: ");
         double valor = scanner.nextDouble();
         scanner.nextLine();
         System.out.println("Digite a descrição do Plano: ");
         String descricao = scanner.nextLine();
         
-        Plano novoPlano = new Plano(nomePlano, duracao, valor, descricao);
+        Plano novoPlano = new Plano(nomePlano, duracaoPlano, valor, descricao);
         PlanoDAO.cadastrarPlano(novoPlano);
 	}
 	

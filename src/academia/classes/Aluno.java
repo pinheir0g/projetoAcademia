@@ -2,6 +2,7 @@ package academia.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,8 +19,8 @@ public class Aluno extends Pessoa{
 	private LocalDate dataMatricula;
 	private List<Avaliacao> avaliacoesFisicas = new ArrayList<>();
 	
-	public Aluno(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, Plano planoContratado, LocalDate dataMatricula) {
-		super(nome, cpf, dataNascimento, contato, senha);
+	public Aluno(String nome, String cpf, LocalDate dataNascimento, String contato, String senha, Plano planoContratado, LocalDate dataMatricula, String tipo) {
+		super(nome, cpf, dataNascimento, contato, senha, tipo);
 		this.planoContratado  = planoContratado;
 		this.dataMatricula  = dataMatricula;
 	}
@@ -46,13 +47,12 @@ public class Aluno extends Pessoa{
     		int idPersonal = PersonalTrainerDAO.getPersonalID(personal);
     		System.out.println("ID: " + idPersonal + "\n" + personal);
     	}
-		
-		System.out.println("Digite o ID do Personal Trainer deseja agendar? \n");
 		do {
 			continua = true;
+			System.out.println("Digite o ID do Personal Trainer deseja agendar \n");
 			if(sc.hasNextInt()) { 
 				id = sc.nextInt();
-				continua = false;
+				sc.nextLine();
 				aluno = AlunoDAO.getAluno(cpf);
 				novoPersonal = PersonalTrainerDAO.getPersonalByID(id);
 				
@@ -61,13 +61,16 @@ public class Aluno extends Pessoa{
 				
 				AgendamentoDAO.solicitarAgendamento(novoPersonal, aluno, dataAgendamento, horarioAgendamento, "Aberto");
 				System.out.println("Agendamento solicitado com Sucesso!");
+				continua = false;
 			} else {
+				System.out.println("Digite apenas números.");
+				continua = false;
 				sc.nextLine();
 			}
 		}while(continua == true);
 	}
 	
-	public static void cancelarAgendamento(String cpf) {
+	public static void cancelarAgendamento(String cpf){
 		boolean continua;
 		int id = 0;
 		int cont = 0;
@@ -91,6 +94,7 @@ public class Aluno extends Pessoa{
 					id = sc.nextInt();
 					continua = false;
 				} else {
+					System.out.println("\nDigite apenas números.");
 					sc.nextLine();
 				}
 			} while(continua == true);
@@ -109,42 +113,52 @@ public class Aluno extends Pessoa{
 		
 		System.out.println("Digite o contato do Aluno: ");
 		String contato = scanner.nextLine();
-		
-		System.out.println("Digite a senha do Aluno: ");
-		
-		String senha = scanner.nextLine();
+		String senha;
+		do {
+			System.out.println("Digite a senha do Aluno: ");
+			senha = scanner.nextLine();
+			if(senha.length() > 8) {
+				System.out.println("A senha deve conter no máximo 8 digitos!");
+			}
+		}while(senha.length() > 8);
 		
 		boolean valida;
-		int idPlano;
+		int idPlano = 0;
 		do {
 			valida = true;
 			int cont = 0;
-			System.out.println("Escolha o plano do Aluno: ");
+			System.out.println("\nEscolha o ID do plano do Aluno: ");
 			for(Plano plano: PlanoDAO.exibirPlanos()) {
 				cont++;
 				System.out.println("\nID: " + cont + "\n" + plano);
 			}
-			idPlano = scanner.nextInt();
-			if(idPlano < 1 || idPlano > 4){
-				System.out.println("Plano inexistente!");
+			if(scanner.hasNextInt()) {
+				idPlano = scanner.nextInt();
+				scanner.nextLine();
+				if(idPlano < 1 || idPlano > cont){
+					System.out.println("Plano inexistente!");
+					valida = false;
+				}
+			}else {
+				System.out.println("Digite apenas números!");
 				valida = false;
+				scanner.nextLine();
 			}
 			
 		}while(!valida);
 		LocalDate dataMatricula = LocalDate.now();
 		Plano plano = PlanoDAO.getPlano(idPlano);
-		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula);
+		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula, "Aluno");
 		AlunoDAO.cadastrar(novoAluno);
 	}
 
 	@Override
 	public String toString() {
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return super.toString() + String.format("""
                 Plano: %s
                 Data de Matricula: %s
                 ---------------------------------------
-                """, planoContratado.getNome(), dataMatricula);
-	}
-	
+                """, planoContratado.getNome(), df.format(dataMatricula));
+	}	
 }
-
