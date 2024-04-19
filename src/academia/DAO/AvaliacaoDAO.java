@@ -5,7 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import academia.classes.Aluno;
+import academia.classes.Avaliacao;
 import academia.classes.PersonalTrainer;
 import academia.db.Conexao;
 
@@ -30,17 +34,20 @@ public class AvaliacaoDAO {
 		}
 	}
 	
-	public static String exibirAvaliacao(String cpf) {
-		String sql = "select pA.nome as Aluno, ppT.nome as Personal, descricao , to_char(data, 'dd/MM/yyyy') as periodo " 
+	public static List<Avaliacao> exibirAvaliacao(String cpf) {
+		String sql = "select p_aluno.cpf as cpf_aluno, p_personal.cpf as cpf_personal, descricao , data " 
 				+ "from avaliacao av "
 				+ "join personaltrainer pt on av.personal_id = pt.id "
 				+ "join aluno a on av.aluno_id = a.id "
-				+ "join pessoa pA on pA.id = a.id "
-				+ "join pessoa ppT on ppT.id = pt.id "
-				+ "where pA.cpf = ? or ppt.cpf = ? "
+				+ "join pessoa p_aluno on p_aluno.id = a.id "
+				+ "join pessoa p_personal on p_personal.id = pt.id "
+				+ "where p_aluno.cpf = ? or p_personal.cpf = ? "
 				+ "order by data";
 		
-		StringBuilder dadosAvaliacao = new StringBuilder();
+		List<Avaliacao> avaliacoes = new ArrayList<>();
+		Avaliacao avaliacao = null;
+		Aluno aluno = null;
+		PersonalTrainer personal = null;
 		
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
@@ -49,39 +56,38 @@ public class AvaliacaoDAO {
 			
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
-					String aluno = rs.getString("Aluno");
-					String personal = rs.getString("Personal");
+					String cpfAluno = rs.getString("cpf_aluno");
+					String cpfPersonal = rs.getString("cpf_personal");
 					String descricao = rs.getString("descricao");
-					String periodo = rs.getString("periodo");
+					Date data = rs.getDate("data");
 					
-					dadosAvaliacao.append(String.format("""
-							
-					Aluno: %s
-					Personal: %s
-					Descricao: %s
-					Data: %s
-					------------------------------------
-					""", aluno, personal, descricao, periodo));
+					aluno = AlunoDAO.getAluno(cpfAluno);
+					personal = PersonalTrainerDAO.getPersonal(cpfPersonal);
+					avaliacao = new Avaliacao(aluno, data.toLocalDate(), personal, descricao);
+					avaliacoes.add(avaliacao);
 				}
 			}
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dadosAvaliacao.toString();		
+		return avaliacoes;		
 	}
 	
-	public static String exibirAvaliacaoPeriodo(int dataInicio, int dataFim) {
-		String sql = "select pA.nome as Aluno, ppT.nome as Personal, descricao, to_char(data, 'dd/MM/yyyy') as periodo "
+	public static List<Avaliacao> exibirAvaliacaoPeriodo(int dataInicio, int dataFim) {
+		String sql = "select p_aluno.cpf as cpf_aluno, p_personal.cpf as cpf_personal, descricao , data " 
 				+ "from avaliacao av "
 				+ "join personaltrainer pt on av.personal_id = pt.id "
 				+ "join aluno a on av.aluno_id = a.id "
-				+ "join pessoa pA on pA.id = a.id "
-				+ "join pessoa ppT on ppT.id = pt.id "
+				+ "join pessoa p_aluno on p_aluno.id = a.id "
+				+ "join pessoa p_personal on p_personal.id = pt.id "
 				+ "where extract(month from data) >= ? and extract(month from data) <= ? "
 				+ "order by data";
 		
-		StringBuilder dados = new StringBuilder();
+		List<Avaliacao> avaliacoes = new ArrayList<>();
+		Avaliacao avaliacao = null;
+		Aluno aluno = null;
+		PersonalTrainer personal = null;
 		
 		try {
 			ps = Conexao.conectar().prepareStatement(sql);
@@ -90,26 +96,22 @@ public class AvaliacaoDAO {
 			
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
-					String aluno = rs.getString("Aluno");
-					String personal = rs.getString("Personal");
+					String cpfAluno = rs.getString("cpf_aluno");
+					String cpfPersonal = rs.getString("cpf_personal");
 					String descricao = rs.getString("descricao");
-					String periodo = rs.getString("periodo");
+					Date data = rs.getDate("data");
 					
-					dados.append(String.format("""
-							
-					Aluno: %s
-					Personal: %s
-					Descricao: %s
-					Data: %s
-					------------------------------------
-					""", aluno, personal, descricao, periodo));
+					aluno = AlunoDAO.getAluno(cpfAluno);
+					personal = PersonalTrainerDAO.getPersonal(cpfPersonal);
+					avaliacao = new Avaliacao(aluno, data.toLocalDate(), personal, descricao);
+					avaliacoes.add(avaliacao);
 				}
 			}
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return dados.toString();
+		return avaliacoes;
 	}
 
 }

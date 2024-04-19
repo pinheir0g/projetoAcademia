@@ -242,7 +242,7 @@ public class Menus {
 	                break;
                 case 4:
                 	System.out.println("---------------------------------------");
-                    System.out.println("	  RELATÓRIO DE PLANOS");
+                    System.out.println("	      RELATÓRIO DE PLANOS"          );
                     System.out.println("---------------------------------------");
                     for(Plano plano : PlanoDAO.exibirPlanos()) {
                     	System.out.println(plano);
@@ -250,9 +250,9 @@ public class Menus {
                     }
                     break;
                 case 5:
-                	System.out.println("-----------------------------------");
-                	System.out.println("	RELATÓRIO DE ALUNOS");
-                	System.out.println("-----------------------------------");
+                	System.out.println("---------------------------------------");
+                	System.out.println("	      RELATÓRIO DE ALUNOS"          );
+                	System.out.println("---------------------------------------");
                 	for(Aluno aluno: AlunoDAO.exibirAlunos()) {
                 		System.out.println(aluno);
                 	}
@@ -263,9 +263,9 @@ public class Menus {
                 	}
                     break;
                 case 6:
-                	System.out.println("-----------------------------------");
-                	System.out.println("	RELATÓRIO DE EQUIPE");
-                	System.out.println("-----------------------------------");
+                	System.out.println("---------------------------------------");
+                	System.out.println("	      RELATÓRIO DE EQUIPE"          );
+                	System.out.println("---------------------------------------");
                 	System.out.println("FUNCIONÁRIOS: \n");
                 	for(Funcionario funcionario: FuncionarioDAO.exibeFuncionarios()) {
                 		System.out.println(funcionario);
@@ -278,10 +278,11 @@ public class Menus {
                     break;
                 case 7:
                     System.out.println("Relatorio de Avaliacoes por periodo");
-                    System.out.println("--------------------------------------");
-                    System.out.println("	RELATÓRIO DE AVALIAÇÕES");
-                    System.out.println("--------------------------------------");
-                    System.out.println(Avaliacao.exibirAvaliacoes());
+                    System.out.println("---------------------------------------");
+                    System.out.println("	    RELATÓRIO DE AVALIAÇÕES"        );
+                    System.out.println("---------------------------------------");
+                    for(Avaliacao avaliacao: Avaliacao.exibirAvaliacoes())
+                    	System.out.println(avaliacao);
                     break;        
                 case 8:
                 	break;

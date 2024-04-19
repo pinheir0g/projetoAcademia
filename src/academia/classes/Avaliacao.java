@@ -2,6 +2,7 @@ package academia.classes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 import academia.DAO.AlunoDAO;
@@ -64,7 +65,7 @@ public class Avaliacao {
 		AvaliacaoDAO.cadastrarAvaliacao(personal, aluno, dataAvaliacao, descricao);
 	}
 	
-	public static String exibirAvaliacoes(){
+	public static List<Avaliacao> exibirAvaliacoes(){
 		Scanner sc = new Scanner(System.in);
 		
 		int dataInicio = ValidacaoAvaliacao.validaPeriodoAvaliacao("Digite o mês de inicio do periodo: (1-12)");
@@ -76,9 +77,12 @@ public class Avaliacao {
 	@Override
 	public String toString() {
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		return "Nome do aluno: " + aluno + "\nData da Avaliação: " + df.format(dataAvaliacao) + "\nPersonal Trainer: " + personalTrainer
-				+ "\nDescrição: " + descricao ;
+		return String.format("""
+				Nome do aluno: %s
+				Personal Trainer: %s
+				Data da Avaliação: %s
+				Descrição: %s
+				---------------------------------------
+				""", aluno.getNome(), personalTrainer.getNome(), df.format(dataAvaliacao), descricao);
 	}
-	
-	
 }

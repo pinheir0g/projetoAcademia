@@ -76,39 +76,6 @@ public class AlunoDAO {
 		return alunoID;
 	}
 	
-	public static Aluno exibirDados(String cpf) {
-		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, a.datamatricula, pl.id "
-				+ "FROM Pessoa p "
-				+ "JOIN Aluno a ON p.id = a.id "
-				+ "JOIN Plano pl ON a.plano_id = pl.id "
-				+ "WHERE cpf = ?";
-		Aluno aluno = null;
-		Plano plano = null;
-		try {
-			ps = Conexao.conectar().prepareStatement(sql);
-			ps.setString(1, cpf);
-			
-			try (ResultSet rs = ps.executeQuery()) {
-				if(rs.next()) {
-					String nome = rs.getString("nome_aluno");
-					Date dataNascimento = rs.getDate("dataNascimento");
-					String contato = rs.getString("contato");
-					String senha = rs.getString("senha");
-					Date dataMatricula = rs.getDate("datamatricula");
-					String tipo = rs.getString("tipo");
-					int planoId = rs.getInt("id");
-					
-					plano = PlanoDAO.getPlano(planoId);
-					aluno = new Aluno(nome, cpf, dataNascimento.toLocalDate(), contato, senha, plano, dataMatricula.toLocalDate(), tipo);
-				}
-			}
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return aluno;
-	}
-	
 	public static List<Aluno> exibirAlunos() {
 
 		String sql = "SELECT p.nome as nome_aluno, p.cpf, p.dataNascimento, p.contato, p.senha, p.tipo, a.datamatricula, pl.id "
