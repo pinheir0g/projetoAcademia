@@ -6,6 +6,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import academia.DAO.PersonalTrainerDAO;
+import academia.classes.PersonalTrainer;
+
 public class ValidacaoPersonal {
 	static Scanner scanner = new Scanner(System.in);
 	
@@ -43,5 +46,28 @@ public class ValidacaoPersonal {
 		}while(!validador);
 		
 		return cref;
+	}
+	
+	public static PersonalTrainer verificaPersonalExiste() {
+		int id;
+		PersonalTrainer personal = null;
+		do {
+			System.out.println("Digite o ID do Personal Trainer deseja agendar \n");
+			if(scanner.hasNextInt()) {
+				id = scanner.nextInt();
+				scanner.nextLine();
+				personal = PersonalTrainerDAO.getPersonalByID(id);
+				if(personal != null) {
+					return personal;
+				}
+				System.out.println("Erro: Personal Trainer não encontrado no sistema! Escolha um Personal existente.");
+			}else {
+				System.out.println("Digite apenas números.");
+				scanner.nextLine();
+			}
+			
+		}while(personal == null);
+		
+		return personal;
 	}
 }
