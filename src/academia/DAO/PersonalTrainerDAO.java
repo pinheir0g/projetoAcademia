@@ -42,7 +42,7 @@ public class PersonalTrainerDAO {
 			ps = Conexao.conectar().prepareStatement(sqlPersonal);
 			ps.setString(1, personal.getEspecialidade());
 			ps.setString(2, personal.getCref());
-			ps.setTime(3, java.sql.Time.valueOf(personal.getHorarioAtendimento()));
+			ps.setString(3, personal.getHorarioAtendimento());
 			ps.executeUpdate();
 			ps.close();
 			
@@ -92,9 +92,9 @@ public class PersonalTrainerDAO {
 					String senha = rs.getString("senha");
 					String cref = rs.getString("cref");
 					String tipo = rs.getString("tipo");
-					Time horario = rs.getTime("horarioatendimento");
+					String horario = rs.getString("horarioatendimento");
 					
-					personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario.toLocalTime(), tipo);
+					personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario, tipo);
 					listaPersonal.add(personal);
 				}
 			}
@@ -126,10 +126,10 @@ public class PersonalTrainerDAO {
 				String senha = rs.getString("senha");
 				String especialidade = rs.getString("especialidade");
 				String cref = rs.getString("cref");
-				Time horario = rs.getTime("horarioatendimento");
+				String horario = rs.getString("horarioatendimento");
 				String tipo = rs.getString("tipo");
 				
-				personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario.toLocalTime(), tipo);
+				personal = new PersonalTrainer(nome, cpf, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horario, tipo);
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -158,9 +158,9 @@ public class PersonalTrainerDAO {
 				String especialidade = rs.getString("especialidade");
 				String cref = rs.getString("cref");
 				String tipo = rs.getString("tipo");
-				Time horarioAtendimento = rs.getTime("horarioAtendimento");
+				String horarioAtendimento = rs.getString("horarioAtendimento");
 				
-				personal = new PersonalTrainer(nome, cpfPersonal, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horarioAtendimento.toLocalTime(), tipo);
+				personal = new PersonalTrainer(nome, cpfPersonal, dataNascimento.toLocalDate(), contato, senha, especialidade, cref, horarioAtendimento, tipo);
 			}else {
 				System.out.println("Personal Trainer não encontrado!");
 			}

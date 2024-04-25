@@ -57,6 +57,11 @@ public class Plano {
         PlanoDAO.cadastrarPlano(novoPlano);
 	}
 	
+	public static void exibePlanos() {
+		for(Plano plano : PlanoDAO.exibirPlanos()) {
+        	System.out.println(plano);
+        }
+	}
 	@Override
 	public String toString() {
 		return String.format("""

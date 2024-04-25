@@ -97,9 +97,7 @@ public class Menus {
                 	System.out.println("-----------------------------------");
                 	System.out.println("     HISTÓRICO DE AGENDAMENTO      ");
                 	System.out.println("-----------------------------------");
-                	for(Agendamento agendamentos : AgendamentoDAO.hitoricoAgendamentos(cpf)) {
-                		System.out.println(agendamentos);
-                	}
+                	Agendamento.exibeAgendamentos(cpf);
                 	break;
                 case 4:
                 	System.out.println("---------------------------------------");
@@ -160,9 +158,7 @@ public class Menus {
                 		System.out.println("Nenhum agendamento cadastrado!");
                 		break;
                 	}
-                	 for(Agendamento agendamentos : AgendamentoDAO.hitoricoAgendamentos(cpf)) {
-                		System.out.println(agendamentos);
-                	}
+                	Agendamento.exibeAgendamentos(cpf);
                     break;
                 case 2:
                     System.out.println("Registrar Avaliação");
@@ -244,18 +240,13 @@ public class Menus {
                 	System.out.println("---------------------------------------");
                     System.out.println("	      RELATÓRIO DE PLANOS"          );
                     System.out.println("---------------------------------------");
-                    for(Plano plano : PlanoDAO.exibirPlanos()) {
-                    	System.out.println(plano);
-                    	
-                    }
+                    Plano.exibePlanos();
                     break;
                 case 5:
                 	System.out.println("---------------------------------------");
                 	System.out.println("	      RELATÓRIO DE ALUNOS"          );
                 	System.out.println("---------------------------------------");
-                	for(Aluno aluno: AlunoDAO.exibirAlunos()) {
-                		System.out.println(aluno);
-                	}
+                	Aluno.exibeAlunos();
                 	System.out.println("Deseja gravar as informações em um arquivo? (S/N)");
                 	String opcao = scanner.nextLine();
                 	if(opcao.equalsIgnoreCase("s")) {
@@ -267,22 +258,16 @@ public class Menus {
                 	System.out.println("	      RELATÓRIO DE EQUIPE"          );
                 	System.out.println("---------------------------------------");
                 	System.out.println("FUNCIONÁRIOS: \n");
-                	for(Funcionario funcionario: FuncionarioDAO.exibeFuncionarios()) {
-                		System.out.println(funcionario);
-                	}
-                	
+                	Funcionario.exibeFuncionarios();
                 	System.out.println("PERSONAL TRAINERS: \n");
-                	for(PersonalTrainer personal: PersonalTrainerDAO.exibePersonalTrainers()) {
-                		System.out.println(personal);
-                	}
+                	PersonalTrainer.exibePersonalTrainers();
                     break;
                 case 7:
                     System.out.println("Relatorio de Avaliacoes por periodo");
                     System.out.println("---------------------------------------");
                     System.out.println("	    RELATÓRIO DE AVALIAÇÕES"        );
                     System.out.println("---------------------------------------");
-                    for(Avaliacao avaliacao: Avaliacao.exibirAvaliacoes())
-                    	System.out.println(avaliacao);
+                    Avaliacao.exibirAvaliacoes();
                     break;        
                 case 8:
                 	break;

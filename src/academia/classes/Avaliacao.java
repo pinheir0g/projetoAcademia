@@ -65,14 +65,16 @@ public class Avaliacao {
 		AvaliacaoDAO.cadastrarAvaliacao(personal, aluno, dataAvaliacao, descricao);
 	}
 	
-	public static List<Avaliacao> exibirAvaliacoes(){
+	public static void exibirAvaliacoes(){
 		Scanner sc = new Scanner(System.in);
 		
 		int dataInicio = ValidacaoAvaliacao.validaPeriodoAvaliacao("Digite o mês de inicio do periodo: (1-12)");
     	int dataFim = ValidacaoAvaliacao.validaPeriodoAvaliacao("Digite o mês de fim do periodo: (1-12)");
     	
     	System.out.println("Avaliações dos Meses entre: " + dataInicio + " e " + dataFim);
-		return AvaliacaoDAO.exibirAvaliacaoPeriodo(dataInicio, dataFim);
+    	for(Avaliacao avaliacao: AvaliacaoDAO.exibirAvaliacaoPeriodo(dataInicio, dataFim)) {
+        	System.out.println(avaliacao);
+    	}
 	}
 	@Override
 	public String toString() {

@@ -11,23 +11,19 @@ import academia.services.ValidacaoPessoa;
 public class PersonalTrainer extends Pessoa {
 	private String especialidade;
 	private String cref;
-	private LocalTime horarioAtendimento;
+	private String horarioAtendimento;
 	
 	
 	public PersonalTrainer(String nome, String cpf, LocalDate dataNascimento, String contato, String senha,
-			String especialidade, String cref, LocalTime horarioAtendimento, String tipo) {
+			String especialidade, String cref, String horarioAtendimento, String tipo) {
 		super(nome, cpf, dataNascimento, contato, senha, tipo);
 		this.especialidade = especialidade;
 		this.cref = cref;
 		this.horarioAtendimento = horarioAtendimento;
 	}
  
-	public LocalTime getHorarioAtendimento() {
+	public String getHorarioAtendimento() {
 		return horarioAtendimento;
-	}
-
-	public void setHorarioAtendimento(LocalTime horarioAtendimento) {
-		this.horarioAtendimento = horarioAtendimento;
 	}
 
 	public String getEspecialidade() {
@@ -56,10 +52,17 @@ public class PersonalTrainer extends Pessoa {
 		String especialidade = scanner.nextLine();
 		
 		String cref = ValidacaoPersonal.validaCref();
-		LocalTime horarioAtendimento = ValidacaoPersonal.validaHorario();
+		System.out.println("Digite o horario de atendimento do Personal Trainer: (Dias - Horarios)");
+		String horarioAtendimento = scanner.nextLine();
 		
 		PersonalTrainer novoPersonal = new PersonalTrainer(nomePersonal, cpf, dataNascimento, contato, senha, especialidade, cref, horarioAtendimento, "Personal Trainer");
 		PersonalTrainerDAO.cadastraPersonal(novoPersonal);
+	}
+	
+	public static void exibePersonalTrainers() {
+		for(PersonalTrainer personal: PersonalTrainerDAO.exibePersonalTrainers()) {
+    		System.out.println(personal);
+    	}
 	}
 		
 	@Override

@@ -112,6 +112,12 @@ public class Agendamento {
 			System.out.println("Agendamento cancelado com Sucesso!");
 		} 
 	}
+	
+	public static void exibeAgendamentos(String cpf) {
+		for(Agendamento agendamento : AgendamentoDAO.hitoricoAgendamentos(cpf)) {
+			System.out.println(agendamento);
+		}
+	}
 
 	@Override
 	public String toString() {

@@ -84,6 +84,12 @@ public class Aluno extends Pessoa{
 		Aluno novoAluno = new Aluno(nomeAluno, cpf, dataNascimento, contato, senha, plano, dataMatricula, "Aluno");
 		AlunoDAO.cadastrar(novoAluno);
 	}
+	
+	public static void exibeAlunos() {
+		for(Aluno aluno: AlunoDAO.exibirAlunos()) {
+    		System.out.println(aluno);
+    	}
+	}
 
 	@Override
 	public String toString() {
